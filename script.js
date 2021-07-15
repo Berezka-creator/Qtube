@@ -1,3 +1,4 @@
+
  $(document).ready(function(){
 
     var API_KEY="AIzaSyAEHX8Fv1RLEWVKWFzzk7QlB-2mb1RsvVo";
@@ -92,7 +93,12 @@
    
     }
     const videoContainer = document.getElementById('video')
-   
+
+    var questions;
+    $.getJSON ("questions.json", function (data){
+        questions = data;
+    });
+
     $('main').on('click', 'article', function (){
        
 
@@ -115,6 +121,7 @@
     
      
          //QUIZ CODE
+
 
         const quizBodyElement = document.getElementById('quiz-body')
         //const startButton = document.getElementById('start-btn')
@@ -262,61 +269,7 @@
       }
     })
 
-    /* WRONG: Cannot access elements inside iframe this way
-    $('iframe').on('click', function (event){
-
-        event.preventDefault();
-        let redirect = $(this).attr('href');
-        console.log(redirect);
-
-        $.ajax({
-            url: $(this).attr('href'),
-            success : function(data){
-                                $('#login-loader').hide();
-                                        location.reload(true);
-                            },
-                            error   : function(){
-                                $('#error-login').replaceWith('<div id="error-login" class="msg fail"><p>Une erreur a été rencontrée lors du deconnexion!</p></div>');
-                            }
-                        });
 
 
+});
 
-    }) */
-
-})
-
-
-const questions= [
-    {
-        question: "What is 2 + 2?",
-        answers: [
-            {text: '4', correct: true},
-            {text: '22', correct: false}
-        ]
-    },
-    {
-        question: "What is 3 + 2?",
-        answers: [
-            {text: '5', correct: true},
-            {text: '32', correct: false}
-        ]
-    },
-    {
-        question: "What is 3 + 3?",
-        answers: [
-            {text: '6', correct: true},
-            {text: '33', correct: false}
-        ]
-    },
-    {
-        question: "What is 2 + 2?",
-        answers: [
-            {text: '4', correct: true},
-            {text: '22', correct: false}
-        ]
-    }
-
-]
-
-  
