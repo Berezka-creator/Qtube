@@ -66,7 +66,7 @@
         + "&type=video&part=snippet&maxResults="+ maxResults
          + "&q="+ search, function(data){
             
-            console.log(data)
+
 
             data.items.forEach(item => {
 
@@ -94,25 +94,31 @@
     }
     const videoContainer = document.getElementById('video')
 
-    var questions;
+    // load questions.json and shuffle
+    var shuffledQuestions;
     $.getJSON ("questions.json", function (data){
-        questions = data;
+        let questions = data;
+        shuffledQuestions = questions.sort(() => Math.random() - .5);
+        console.log("json loaded");
     });
+    let currentQuestionIndex = 0;
+
 
     $('main').on('click', 'article', function (){
        
-
-        var id = $(this).attr('data-key');
+        // save the id of the video clicked in a variable
+        var videoId = $(this).attr('data-key');
          
-
+        function playVideo (id){
          $('#video').html(`
          <iframe id="iframe" width="560" height="315"
-         src="https://www.youtube.com/embed/${id}?rel=0&enablejsapi=1"
+         src="https://www.youtube.com/embed/${id}?autoplay=1&enablejsapi=1&modestbranding=1"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          sandbox="allow-forms allow-scripts allow-pointer-lock allow-same-origin allow-top-navigation"
+          sandbox="allow-forms allow-scripts allow-pointer-lock allow-same-origin allow-top-navigation allow-presentation"
           allowfullscreen style="display: block"></iframe>
       `);
+      }
 
 
 
@@ -131,13 +137,13 @@
         const questionContainerElement = document.getElementById('question-container')
         const questionElement = document.getElementById('question')
         const answerButtonsElement = document.getElementById('answer-buttons')
-        let shuffledQuestions, currentQuestionIndex;
+
 
         nextButton.addEventListener('click', () => {
             answerButtonsElement.classList.remove('disable')
           
             clearStatusClass(quizBodyElement)
-            console.log(currentQuestionIndex)
+
             //if it is last element of array 
             if(currentQuestionIndex == shuffledQuestions.length-1){
                 currentQuestionIndex=0
@@ -154,9 +160,8 @@
         answerButtonsElement.classList.remove('hide')
         resetState()
         clearStatusClass(quizBodyElement)
-          console.log("Start Game")
-          shuffledQuestions = questions.sort(() => Math.random() - .5)
-          currentQuestionIndex = 0
+          console.log("Start Game at index =" + currentQuestionIndex)
+
           quizBodyElement.classList.remove('hide')
           questionContainerElement.classList.remove('hide')
           setNextQuestion()
@@ -171,7 +176,7 @@
         //to reset quiz body before showing new question
         //to set it to default state before we set a new question
         resetState()
-     
+        nextButton.classList.add('hide')
         questionElement.innerText = question.question
 
 
@@ -232,8 +237,10 @@
 
          if(correct){
              console.log("Video is playing")
-                quizBodyElement.classList.add('hide')
-                // uvisbleContainer.classList.remove('hide')
+             currentQuestionIndex++;
+             quizBodyElement.classList.add('hide')
+             // uvisbleContainer.classList.remove('hide')
+             playVideo(videoId);
 
 
             
@@ -243,8 +250,7 @@
                 nextButton.classList.remove('hide')
                 answerButtonsElement.classList.add('disable')       
          }
-       
-         console.log("AFTER ELSE")
+
       }
 
       //this function will set just add CSS class
