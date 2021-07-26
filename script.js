@@ -115,8 +115,6 @@
       window.onYouTubeIframeAPIReady = function () {
         console.log("youtube api read");
         player = new YT.Player('player', {
-            height: '500',
-            windth: '500',
 
             events: {
               'onReady': onPlayerReady,
@@ -309,20 +307,24 @@
 
             setStatusClass(button, button.dataset.correct)   
           })
-            showVideo(selectedButton.dataset.correct)
+          //increase question index since it is answered
+           if(currentQuestionIndex == shuffledQuestions.length-1){
+                currentQuestionIndex=0
+           }else{
+                 currentQuestionIndex++
+           }
+           //than we will see if it is correct
+           if(selectedButton.dataset.correct){
+                showVideo()
+            } else {
+                 nextButton.classList.remove('hide')
+                 answerButtonsElement.classList.add('disable')
+            }
       }
 
-    function showVideo(correct){
-           //increase question index since it is answered
-           if(currentQuestionIndex == shuffledQuestions.length-1){
-                           currentQuestionIndex=0
-                        }else{
-                           currentQuestionIndex++
-                       }
+    function showVideo(){
 
-          //than we will see if it is correct
 
-         if(correct){
              console.log("hiding quiz and showing video")
 
              quizBodyElement.classList.add('hide')
@@ -343,17 +345,7 @@
              videoElement.classList.remove('hide');
 
              player.loadVideoById(videoId);
-
-
-            
-               
-
-         } else {
-                nextButton.classList.remove('hide')
-                answerButtonsElement.classList.add('disable')       
-         }
-
-      }
+}
 
       //this function will set just add CSS class
       //WRONG or CORRECT classes to selected elements
