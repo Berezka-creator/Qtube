@@ -1,6 +1,7 @@
 
  $(document).ready(function(){
 
+    let videosIds = []; // will be used to load into the player
     var API_KEY="AIzaSyAEHX8Fv1RLEWVKWFzzk7QlB-2mb1RsvVo";
 
     var video= ''
@@ -14,11 +15,11 @@
              playlistId: playlistId,
              playerVars: {rel:0}
          }
-         loadVids();
+
+    loadVids();
     
          function loadVids(){
              $.getJSON(URL, options, function(data){
-                 console.log(data);
                  var id = data.items[0].snippet.resourceId.videoId; 
             
                  resultsLoop(data);
@@ -30,8 +31,9 @@
                                  var thumb = item.snippet.thumbnails.medium.url;
                                  var title=item.snippet.title;
                                  var desc = item.snippet.description.substring(0, 100);
-                                 var vid=item.snippet.resourceId.videoId;
-                                
+                                 var vid=i; // will be the index of the video in the playlist
+                                 videosIds.push(item.snippet.resourceId.videoId);
+
                                  $('main').append(`
                                  <article class="item" data-key="${vid}">
                                          <img src="${thumb}"
@@ -47,7 +49,6 @@
 
         });
     }
-
 
     //SEARCH VIDEOS
     $("#form").submit(function(event){
@@ -92,7 +93,54 @@
         })
    
     }
-    const videoContainer = document.getElementById('video')
+
+    //save the video div in a variable for adding removing class from it
+    let videoElement = document.getElementById('video');
+
+    // load iFrame YouTube API and construct the video player
+
+    // 1. Create a script tag with src= to youtube api and insert it before first script tag
+    var tag = document.createElement("script");
+    tag.id = "iframe-script";
+    tag.src = "https://www.youtube.com/iframe_api";
+    var iframeTag = document.getElementById("player");
+    iframeTag.parentNode.insertBefore(tag, iframeTag.nextSibling);
+
+
+      // 2. construct the player
+      var player;
+      window.onYouTubeIframeAPIReady = function () {
+        console.log("youtube api read");
+        player = new YT.Player('player', {
+            height: '500',
+            windth: '500',
+
+            events: {
+              'onReady': onPlayerReady,
+              'onStateChange': onPlayerStateChange
+            }
+        });
+      }
+
+
+      window.onPlayerReady = function (event) {
+        player.cuePlaylist(videosIds);
+        console.log("player is ready");
+      }
+
+      window.onPlayerStateChange = function (event) {
+        let e = event.data;
+        console.log("video status is: " + e);
+        /*
+        if (e == 0 || e == 5 ){ // if player ended or stopped then always hide
+            videoElement.classList.add('hide');
+        }
+        */
+        if (e == 1){ // if player is playing then always show
+            videoElement.classList.remove('hide');
+        }
+      }
+
 
     // load questions.json and shuffle
     var shuffledQuestions;
@@ -105,20 +153,39 @@
 
 
     $('main').on('click', 'article', function (){
-       
+
         // save the id of the video clicked in a variable
-        var videoId = $(this).attr('data-key');
-         
-        function playVideo (id){
-         $('#video').html(`
-         <iframe id="iframe" width="560" height="315"
-         src="https://www.youtube.com/embed/${id}?autoplay=1&enablejsapi=1&modestbranding=1"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          sandbox="allow-forms allow-scripts allow-pointer-lock allow-same-origin allow-top-navigation allow-presentation"
-          allowfullscreen style="display: block"></iframe>
-      `);
-      }
+        let thisArticle = $(this);
+        let videoId = thisArticle.attr('data-key');
+
+        // Add event listener to video control buttons
+        const prevVidBtn = document.getElementById('prev-video-btn');
+        const closeVidBtn = document.getElementById('close-video-btn');
+        const nextVidBtn = document.getElementById('next-video-btn');
+
+        prevVidBtn.addEventListener('click', () => {
+            // Make sure to stop the video if it is playing
+            if (player.getPlayerState()==1 || player.getPlayerState()==2){ // 1 means playing
+                 player.stopVideo();
+            }
+            videoId --;
+            startGame ();
+        });
+        nextVidBtn.addEventListener('click', () => {
+                    // Make sure to stop the video if it is playing
+                    if (player.getPlayerState()==1 || player.getPlayerState()==2){ // 1 means playing
+                         player.stopVideo();
+                    }
+                    videoId ++;
+                    startGame ();
+        });
+        closeVidBtn.addEventListener('click', () => {
+                            // Make sure to stop the video if it is playing
+                            if (player.getPlayerState()==1 || player.getPlayerState()==2 ){ // 1 means playing
+                                 player.stopVideo();
+                            }
+                            videoElement.classList.add('hide');
+        });
 
 
 
@@ -130,7 +197,7 @@
 
 
         const quizBodyElement = document.getElementById('quiz-body')
-        //const startButton = document.getElementById('start-btn')
+        const cancelButton = document.getElementById('cancel-btn')
         const nextButton = document.getElementById('next-btn')
         const uvisibleContainer = document.getElementById('unvisible')
         uvisibleContainer.classList.add('unvisible')
@@ -138,38 +205,51 @@
         const questionElement = document.getElementById('question')
         const answerButtonsElement = document.getElementById('answer-buttons')
 
+        cancelButton.addEventListener('click', () => {
+            // incase user cancels after answering wrong reset and change index
+            answerButtonsElement.classList.remove('disable')
+            clearStatusClass(quizBodyElement)
+
+            // hide quiz and show video if it was paused
+            quizBodyElement.classList.add('hide');
+            if (player.getPlayerState () == 2){ // if video was paused prior to this quiz, go back to it
+                videoElement.classList.remove('hide');
+            }
+        })
+
 
         nextButton.addEventListener('click', () => {
             answerButtonsElement.classList.remove('disable')
           
             clearStatusClass(quizBodyElement)
 
-            //if it is last element of array 
-            if(currentQuestionIndex == shuffledQuestions.length-1){
-                currentQuestionIndex=0
-            }else{
-                currentQuestionIndex++
-            }
-            setNextQuestion()
-
+            showQuestion(shuffledQuestions[currentQuestionIndex]);
         })
 
     startGame()
 
     function startGame(){
+
         answerButtonsElement.classList.remove('hide')
+        answerButtonsElement.classList.remove('disable')
         resetState()
         clearStatusClass(quizBodyElement)
-          console.log("Start Game at index =" + currentQuestionIndex)
 
-          quizBodyElement.classList.remove('hide')
-          questionContainerElement.classList.remove('hide')
-          setNextQuestion()
-        }
+        console.log("Start Game at index =" + currentQuestionIndex)
 
-    function setNextQuestion(){
+        quizBodyElement.classList.remove('hide')
+        questionContainerElement.classList.remove('hide')
+
+          // Make sure to pause the video if it is playing
+          if (player.getPlayerState()==1){ // 1 means playing
+            player.pauseVideo();
+
+          }
+          videoElement.classList.add('hide');
+
+
           showQuestion(shuffledQuestions[currentQuestionIndex])
-      }
+        }
 
     function showQuestion(question) {
 
@@ -225,22 +305,30 @@
           //than loop through all our buttons and set the class for them
 
           Array.from(answerButtonsElement.children).forEach(button => { 
-            console.log(button.dataset.correct)
+
             setStatusClass(button, button.dataset.correct)   
           })
             showVideo(selectedButton.dataset.correct)
       }
 
     function showVideo(correct){
+           //increase question index since it is answered
+           if(currentQuestionIndex == shuffledQuestions.length-1){
+                           currentQuestionIndex=0
+                        }else{
+                           currentQuestionIndex++
+                       }
 
           //than we will see if it is correct
 
          if(correct){
-             console.log("Video is playing")
-             currentQuestionIndex++;
+             console.log("hiding quiz and showing video")
+
              quizBodyElement.classList.add('hide')
              // uvisbleContainer.classList.remove('hide')
-             playVideo(videoId);
+             videoElement.classList.remove('hide');
+
+             player.playVideoAt(videoId);
 
 
             
