@@ -1,7 +1,6 @@
 
  $(document).ready(function(){
 
-    let videosIds = []; // will be used to load into the player
     var API_KEY="AIzaSyAEHX8Fv1RLEWVKWFzzk7QlB-2mb1RsvVo";
 
     var video= ''
@@ -31,8 +30,7 @@
                                  var thumb = item.snippet.thumbnails.medium.url;
                                  var title=item.snippet.title;
                                  var desc = item.snippet.description.substring(0, 100);
-                                 var vid=i; // will be the index of the video in the playlist
-                                 videosIds.push(item.snippet.resourceId.videoId);
+                                 var vid=item.snippet.resourceId.videoId;
 
                                  $('main').append(`
                                  <article class="item" data-key="${vid}">
@@ -59,7 +57,12 @@
     })
 
     function videoSearch(key, search, maxResults){
-        $("#video").empty()
+       // make sure to hide and pause the video if it was already playing
+
+        if (player.getPlayerState()==1){
+            player.pauseVideo();
+        }
+        $("#video").addClass('hide');
 
         $("#videos").empty()
 
@@ -124,18 +127,14 @@
 
 
       window.onPlayerReady = function (event) {
-        player.cuePlaylist(videosIds);
+
         console.log("player is ready");
       }
 
       window.onPlayerStateChange = function (event) {
         let e = event.data;
         console.log("video status is: " + e);
-        /*
-        if (e == 0 || e == 5 ){ // if player ended or stopped then always hide
-            videoElement.classList.add('hide');
-        }
-        */
+
         if (e == 1){ // if player is playing then always show
             videoElement.classList.remove('hide');
         }
@@ -155,8 +154,8 @@
     $('main').on('click', 'article', function (){
 
         // save the id of the video clicked in a variable
-        let thisArticle = $(this);
-        let videoId = thisArticle.attr('data-key');
+        let currentArticle = $(this);
+        let videoId = currentArticle.attr('data-key');
 
         // Add event listener to video control buttons
         const prevVidBtn = document.getElementById('prev-video-btn');
@@ -165,24 +164,28 @@
 
         prevVidBtn.addEventListener('click', () => {
             // Make sure to stop the video if it is playing
-            if (player.getPlayerState()==1 || player.getPlayerState()==2){ // 1 means playing
-                 player.stopVideo();
+            if (player.getPlayerState()==1 ){ // 1 means playing
+                 player.pauseVideo();
             }
-            videoId --;
+            currentArticle = currentArticle.prev('article');
+            videoId = currentArticle.attr('data-key');
+
             startGame ();
         });
         nextVidBtn.addEventListener('click', () => {
                     // Make sure to stop the video if it is playing
-                    if (player.getPlayerState()==1 || player.getPlayerState()==2){ // 1 means playing
-                         player.stopVideo();
+                    if (player.getPlayerState()==1){ // 1 means playing
+                         player.pauseVideo();
                     }
-                    videoId ++;
+                    currentArticle = currentArticle.next('article');
+                    videoId = currentArticle.attr('data-key');
+
                     startGame ();
         });
         closeVidBtn.addEventListener('click', () => {
                             // Make sure to stop the video if it is playing
-                            if (player.getPlayerState()==1 || player.getPlayerState()==2 ){ // 1 means playing
-                                 player.stopVideo();
+                            if (player.getPlayerState()==1 ){ // 1 means playing
+                                 player.pauseVideo();
                             }
                             videoElement.classList.add('hide');
         });
@@ -212,9 +215,7 @@
 
             // hide quiz and show video if it was paused
             quizBodyElement.classList.add('hide');
-            if (player.getPlayerState () == 2){ // if video was paused prior to this quiz, go back to it
-                videoElement.classList.remove('hide');
-            }
+
         })
 
 
@@ -245,7 +246,7 @@
             player.pauseVideo();
 
           }
-          videoElement.classList.add('hide');
+          videoElement.classList.add('hide'); // always make sure it is hidden when game is starting
 
 
           showQuestion(shuffledQuestions[currentQuestionIndex])
@@ -326,9 +327,22 @@
 
              quizBodyElement.classList.add('hide')
              // uvisbleContainer.classList.remove('hide')
+
+             // make sure there is a next/prev video and hide/show button accordingly
+             if (currentArticle.next('article').length){
+                nextVidBtn.classList.remove('hide');
+             } else {
+                nextVidBtn.classList.add('hide');
+             }
+             if (currentArticle.prev('article').length){
+                             prevVidBtn.classList.remove('hide');
+                          } else {
+                             prevVidBtn.classList.add('hide');
+                          }
+
              videoElement.classList.remove('hide');
 
-             player.playVideoAt(videoId);
+             player.loadVideoById(videoId);
 
 
             
