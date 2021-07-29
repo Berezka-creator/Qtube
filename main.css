@@ -54,9 +54,9 @@ body {
     background-color: hsl(var(--hue), 100%, 20%);
 }
 
-#unvisible{
+#invisible{
     position: fixed;
-   
+    display: none;
     width: 560px;
     height: 260px;
     background-color: red;
@@ -185,10 +185,6 @@ article:hover{
 
 }
 
-
-.hide {
-    display: none;  
-}
 
 .disable{
     pointer-events: none;

@@ -1,119 +1,20 @@
 
  $(document).ready(function(){
 
-    var API_KEY="AIzaSyAEHX8Fv1RLEWVKWFzzk7QlB-2mb1RsvVo";
+    //******** load iFrame YouTube player API and construct the video player ************
 
-    var video= ''
-  
-    var playlistId = 'PLcHIy7MhWjmgA2YfyLc9kQpYOENBB9X_y';
-    var URL = 'https://www.googleapis.com/youtube/v3/playlistItems';
-    var options = {
-             part: 'snippet',
-             key: API_KEY,
-             maxResults: 20,
-             playlistId: playlistId,
-             playerVars: {rel:0}
-         }
-
-    loadVids();
-    
-         function loadVids(){
-             $.getJSON(URL, options, function(data){
-                 var id = data.items[0].snippet.resourceId.videoId; 
-            
-                 resultsLoop(data);
-
-                 function resultsLoop(data) {
-
-                             $.each(data.items, function(i, item){
-                    
-                                 var thumb = item.snippet.thumbnails.medium.url;
-                                 var title=item.snippet.title;
-                                 var desc = item.snippet.description.substring(0, 100);
-                                 var vid=item.snippet.resourceId.videoId;
-
-                                 $('main').append(`
-                                 <article class="item" data-key="${vid}">
-                                         <img src="${thumb}"
-                                         alt=""  class="thumb" />
-                                         <div class="details">
-                                             <h4>${title}</h4>
-                                             <p>${desc}</p>
-                                         </div>
-                                         </article>
-                                 `);
-                             })
-         }
-
-        });
-    }
-
-    //SEARCH VIDEOS
-    $("#form").submit(function(event){
-        event.preventDefault()
-        var search=$("#search").val()
-
-        videoSearch(API_KEY, search, 10)
-    })
-
-    function videoSearch(key, search, maxResults){
-       // make sure to hide and pause the video if it was already playing
-
-        if (player.getPlayerState()==1){
-            player.pauseVideo();
-        }
-        $("#video").addClass('hide');
-
-        $("#videos").empty()
-
-        $.get("https://www.googleapis.com/youtube/v3/search?key="+ key
-        + "&type=video&part=snippet&maxResults="+ maxResults
-         + "&q="+ search, function(data){
-            
-
-
-            data.items.forEach(item => {
-
-                var thumb = item.snippet.thumbnails.medium.url;
-                var title=item.snippet.title;
-                var desc = item.snippet.description.substring(0, 100);
-                var vid=item.id.videoId;
-            
-
-                video =`
-                <article class="item" data-key="${vid}">
-                    <img src="${thumb}"
-                     alt=""  class="thumb" />
-                     <div class="details">
-                         <h4>${title}</h4>
-                         <p>${desc}</p>
-                     </div>
-                     </article>
-                `
-                $("#videos").append(video)
-                
-            })
-        })
-   
-    }
-
-    //save the video div in a variable for adding removing class from it
-    let videoElement = document.getElementById('video');
-
-    // load iFrame YouTube API and construct the video player
-
-    // 1. Create a script tag with src= to youtube api and insert it before first script tag
+    // 1. Create a script tag with src= to youtube api to load the api script
     var tag = document.createElement("script");
     tag.id = "iframe-script";
     tag.src = "https://www.youtube.com/iframe_api";
-    var iframeTag = document.getElementById("player");
-    iframeTag.parentNode.insertBefore(tag, iframeTag.nextSibling);
+    var firstScript = document.getElementsByTagName("script")[0];
+    firstScript.parentNode.insertBefore(tag, firstScript);
 
 
-      // 2. construct the player
-      var player;
-      window.onYouTubeIframeAPIReady = function () {
-        console.log("youtube api read");
+    // 2. construct the player
+    var player;
+    window.onYouTubeIframeAPIReady = function () {
+
         player = new YT.Player('player', {
 
             events: {
@@ -121,25 +22,117 @@
               'onStateChange': onPlayerStateChange
             }
         });
-      }
+    }
 
-
-      window.onPlayerReady = function (event) {
+    // 3. Define the the event functions
+    window.onPlayerReady = function (event) {
 
         console.log("player is ready");
-      }
+    }
 
-      window.onPlayerStateChange = function (event) {
+    window.onPlayerStateChange = function (event) {
         let e = event.data;
-        console.log("video status is: " + e);
+        console.log("player status is: " + e);
 
-        if (e == 1){ // if player is playing then always show
-            videoElement.classList.remove('hide');
+    }
+
+
+
+
+
+    //********** define function to load the videos on the page given a youtube api URL (search or playlists) and options
+    function loadVids(URL, options){
+
+        // make sure to the quiz window
+        $("#quiz-body").hide();
+
+        // Also make sure to hide and pause the video if it was already playing
+        $("#video").hide();
+        try {// if player is not constructed yet skip this
+
+            if (player.getPlayerState()==1){
+                player.pauseVideo();
+            }
+
+        } catch (e){(console.log("player did not load yet"));}
+
+
+
+        // Empty previous videos if needed
+        $("#videos").empty()
+
+        $.getJSON(URL, options, function(data){
+             console.log("youtube data api success.");
+
+             // loop through the items and load them on the page
+             $.each(data.items, function(i, item){
+
+                 var thumb = item.snippet.thumbnails.medium.url;
+                 var title=item.snippet.title;
+                 var desc = item.snippet.description.substring(0, 100);
+
+                 // the search api and playlist api returns the data with videoId in different path
+                 // we check first if we are using the search api (URL ending in 'h') or playlistsitems api (URL ends in 's')
+                 if(URL.charAt(URL.length - 1) == 's') {
+                    var vid=item.snippet.resourceId.videoId; // path for playlistitems api's videoId
+                 } else if(URL.charAt(URL.length - 1) == 'h') {
+                    var vid=item.id.videoId; // path for search api videoId
+                 }
+
+                 $('main').append(`
+                     <article class="item" data-key="${vid}">
+                         <img src="${thumb}"
+                         alt="Image of ${title}"  class="thumb" />
+                         <div class="details">
+                             <h4>${title}</h4>
+                             <p>${desc}</p>
+                         </div>
+                     </article>
+                 `);
+             });
+
+        });
+    }
+
+    //****** YouTube data api variables for loading a playlist and pass to loadVids function****************//
+
+    var API_KEY="AIzaSyAEHX8Fv1RLEWVKWFzzk7QlB-2mb1RsvVo"; // used for both search and playlistitems api
+
+    var playlistId = 'PLcHIy7MhWjmgA2YfyLc9kQpYOENBB9X_y';
+    var URL = 'https://www.googleapis.com/youtube/v3/playlistItems';
+    var options = {
+         part: 'snippet',
+         key: API_KEY,
+         maxResults: 20,
+         playlistId: playlistId,
+
+    }
+
+    loadVids(URL, options);
+
+
+    //******* SEARCH VIDEOS, event handlet for form submission
+    $("#form").submit(function(event){
+        event.preventDefault()
+
+        // get the value to search
+        var search=$("#search").val()
+        //set up youtube api search variables
+        URL = 'https://www.googleapis.com/youtube/v3/search';
+        options = {
+             part: 'snippet',
+             key: API_KEY,
+             type: 'video',
+             maxResults: 20,
+             q: search,
         }
-      }
+        // pass them into the loadvids function
+        loadVids(URL, options);
+    });
 
 
-    // load questions.json and shuffle
+
+    //************ load the quiz questions.json and shuffle ********
     var shuffledQuestions;
     $.getJSON ("questions.json", function (data){
         let questions = data;
@@ -148,226 +141,170 @@
     });
     let currentQuestionIndex = 0;
 
+    //***** set up event handlers ********
 
+    //first declare video related global variables
+    var currentArticle; // will hold the <article> element containing video details
+    var videoId;
+
+    // Event handler: Main
+     // When user selects a video to play
     $('main').on('click', 'article', function (){
 
-        // save the id of the video clicked in a variable
-        let currentArticle = $(this);
-        let videoId = currentArticle.attr('data-key');
+        //save the <article> and id of the video clicked in variable to play the video after quiz is answered
+        currentArticle = $(this);
+        videoId = currentArticle.attr('data-key')
 
-        // Add event listener to video control buttons
-        const prevVidBtn = document.getElementById('prev-video-btn');
-        const closeVidBtn = document.getElementById('close-video-btn');
-        const nextVidBtn = document.getElementById('next-video-btn');
+        //********** start the quiz game function which lead to playing the video
+        startGame();
+    });
 
-        prevVidBtn.addEventListener('click', () => {
-            // Make sure to stop the video if it is playing
-            if (player.getPlayerState()==1 ){ // 1 means playing
-                 player.pauseVideo();
-            }
-            currentArticle = currentArticle.prev('article');
-            videoId = currentArticle.attr('data-key');
+    // Event Handler: quiz controls
+    // next and close buttons
+    $('#cancel-btn').on('click', () => {
+        $('#quiz-body').hide();
+    })
+    $('#next-btn').on('click', () => {
 
-            startGame ();
-        });
-        nextVidBtn.addEventListener('click', () => {
-                    // Make sure to stop the video if it is playing
-                    if (player.getPlayerState()==1){ // 1 means playing
-                         player.pauseVideo();
-                    }
-                    currentArticle = currentArticle.next('article');
-                    videoId = currentArticle.attr('data-key');
+        showQuestion(shuffledQuestions[currentQuestionIndex]);
+    })
 
-                    startGame ();
-        });
-        closeVidBtn.addEventListener('click', () => {
-                            // Make sure to stop the video if it is playing
-                            if (player.getPlayerState()==1 ){ // 1 means playing
-                                 player.pauseVideo();
-                            }
-                            videoElement.classList.add('hide');
-        });
+    // Event handler: Answer Buttons
+    // for user choosing an answer to let user know if correct and proceed accordingly
+    $('#answer-buttons').on('click','button',function (e){
+        console.log("answer selected");
+
+        //1. get the data kay "correct" from selected button
+        let selectedButton = $(this);
+        let correct =  selectedButton.data('correct'); // returns the value stored (true/false) for data key "correct"
+
+        //2. increase question index to next question, or if this was last, back to zero
+        if(currentQuestionIndex == shuffledQuestions.length-1){
+            currentQuestionIndex=0
+        }else{
+            currentQuestionIndex++
+        }
+
+        //3. Check if user answered correctly and show video or show the next button so user can try again
+        if(correct){
+            showVideo()
+        } else {
+
+            // 1. Show the user the correct and wrong answers
+            $('#answer-buttons button').each(function(){
+                if ($(this).data('correct')){
+                    $(this).addClass('correct');
+                } else {
+                    $(this).addClass('wrong');
+                }
+            });
+
+            // 2. disable the answers so user cannot click again
+            $('#answer-buttons').addClass('disable');
+
+            // 3. change the quiz background to red for WRONG!!
+            $('#quiz-body').addClass('wrong');
+            // 4. show the next button
+            $('#next-btn').show();
+
+        }
+    });
+
+    // Event Handler: Video Controls
+    // selects next/prev video <article> by using jquery.next()/prev(), and close button to hide video
+    $('#prev-video-btn').on('click',function () {
+        currentArticle = currentArticle.prev('article');
+        videoId = currentArticle.attr('data-key');
+
+        startGame ();
+    });
+    $('#next-video-btn').on('click',function() {
+
+        currentArticle = currentArticle.next('article');
+        videoId = currentArticle.attr('data-key');
+
+        startGame ();
+    });
+    $('#close-video-btn').on('click', function() {
+        // Make sure to stop the video if it is playing
+        if (player.getPlayerState()==1 ){ // 1 means playing
+        player.pauseVideo();
+        }
+        $("#video").hide();
+    });
 
 
 
-
-
-    
-     
-         //QUIZ CODE
-
-
-        const quizBodyElement = document.getElementById('quiz-body')
-        const cancelButton = document.getElementById('cancel-btn')
-        const nextButton = document.getElementById('next-btn')
-        const uvisibleContainer = document.getElementById('unvisible')
-        uvisibleContainer.classList.add('unvisible')
-        const questionContainerElement = document.getElementById('question-container')
-        const questionElement = document.getElementById('question')
-        const answerButtonsElement = document.getElementById('answer-buttons')
-
-        cancelButton.addEventListener('click', () => {
-            // incase user cancels after answering wrong reset and change index
-            answerButtonsElement.classList.remove('disable')
-            clearStatusClass(quizBodyElement)
-
-            // hide quiz and show video if it was paused
-            quizBodyElement.classList.add('hide');
-
-        })
-
-
-        nextButton.addEventListener('click', () => {
-            answerButtonsElement.classList.remove('disable')
-          
-            clearStatusClass(quizBodyElement)
-
-            showQuestion(shuffledQuestions[currentQuestionIndex]);
-        })
-
-    startGame()
-
+    // ***** funtion that start the quiz
     function startGame(){
 
-        answerButtonsElement.classList.remove('hide')
-        answerButtonsElement.classList.remove('disable')
-        resetState()
-        clearStatusClass(quizBodyElement)
+        // 1. Make sure to hide and pause the video if it is playing
+        if (player.getPlayerState()==1){ // 1 means playing
+        player.pauseVideo();
 
-        console.log("Start Game at index =" + currentQuestionIndex)
-
-        quizBodyElement.classList.remove('hide')
-        questionContainerElement.classList.remove('hide')
-
-          // Make sure to pause the video if it is playing
-          if (player.getPlayerState()==1){ // 1 means playing
-            player.pauseVideo();
-
-          }
-          videoElement.classList.add('hide'); // always make sure it is hidden when game is starting
-
-
-          showQuestion(shuffledQuestions[currentQuestionIndex])
         }
-
-    function showQuestion(question) {
-
-        //to reset quiz body before showing new question
-        //to set it to default state before we set a new question
-        resetState()
-        nextButton.classList.add('hide')
-        questionElement.innerText = question.question
+        $('#video').hide();
 
 
-          //loop through our answers in array to show answers buttons to choose
+        // 2. show quiz body and show current index's question
+        $('#quiz-body').show();
+        showQuestion(shuffledQuestions[currentQuestionIndex])
+    }
 
-          question.answers.forEach(answer => {
-              const button = document.createElement('button')
-              button.innerText = answer.text
-              button.classList.add('btn')
-                //if correct is true
-              if (answer.correct){
-                  button.dataset.correct = answer.correct
+    // ***** show question function that display and sets up the quiz body
+    function showQuestion(questionObj) {
 
-                  
-              }
+        //1. Remove ALL previous correct and wrong CSS classes
+        $('.correct').removeClass('correct');
+        $('.wrong').removeClass('wrong');
 
-            //now we have some dataset on the button that set to true
-            //if it was true, if it wasn't true, there is no dataset
+        // 2. Write the question
+        $('#question').text(questionObj.question);
 
-            button.addEventListener('click', selectAnswer)
 
-            //add this button to all our buttons
-            answerButtonsElement.appendChild(button)
-            //we need to clear this answer every time when we set next question
-           })
-      }
+        // 3. Answers Buttons:
+        // a. loop through our answers in the questions Object
+        $.each(questionObj.answers,function (index, answer){
+            // b. add dataset to identify which button is correct or not
+            answerBtn= $('#answer'+index);
+            answerBtn.text(answer.text);
+            answerBtn.data('correct',answer.correct); // store true or false for key "correct"
 
-       //this function is going to reset
-      // everything that is related to our QUIZBODY
-    function resetState(){
+        });
+        // c. Remove previous disable CSS class if present
+        $('#answer-buttons').removeClass('disable');
 
-        //wewill loop through all our children inside the answer elements
-        // and if there is any button that left after previus question,
-        // we need to remove it
-        while(answerButtonsElement.firstChild){
-            answerButtonsElement.removeChild(answerButtonsElement.firstChild)
-        }
-      }
-     
-    function selectAnswer(e){
-          //e-is selected button
-          const selectedButton = e.target
-          const correct =  selectedButton.dataset.correct
-            //we need to set atetus class of our body
-          setStatusClass(quizBodyElement, correct)
-          //than loop through all our buttons and set the class for them
+        // 3. Hide the next button to prevent user from skipping the question
+        $("#next-btn").hide();
 
-          Array.from(answerButtonsElement.children).forEach(button => { 
+    }
 
-            setStatusClass(button, button.dataset.correct)   
-          })
-          //increase question index since it is answered
-           if(currentQuestionIndex == shuffledQuestions.length-1){
-                currentQuestionIndex=0
-           }else{
-                 currentQuestionIndex++
-           }
-           //than we will see if it is correct
-           if(selectedButton.dataset.correct){
-                showVideo()
-            } else {
-                 nextButton.classList.remove('hide')
-                 answerButtonsElement.classList.add('disable')
-            }
-      }
 
+    //**** this function will play the selected video and set up video controls. Executes if user answers answers
+    // the quiz correctly
     function showVideo(){
 
+        // 1. hide the quiz body
+        $('#quiz-body').hide();
 
-             console.log("hiding quiz and showing video")
+         // 2. make sure there is a next/prev video and hide/show buttons accordingly
+         if (currentArticle.next('article').length){
+            $('#next-video-btn').show();
+         } else {
+            $('#next-video-btn').hide();
+         }
+         if (currentArticle.prev('article').length){
+             $('#prev-video-btn').show();
+         } else {
+             $('#prev-video-btn').hide();
+         }
 
-             quizBodyElement.classList.add('hide')
-             // uvisbleContainer.classList.remove('hide')
+         // show and play video!
+         $('#video').show();
 
-             // make sure there is a next/prev video and hide/show button accordingly
-             if (currentArticle.next('article').length){
-                nextVidBtn.classList.remove('hide');
-             } else {
-                nextVidBtn.classList.add('hide');
-             }
-             if (currentArticle.prev('article').length){
-                             prevVidBtn.classList.remove('hide');
-                          } else {
-                             prevVidBtn.classList.add('hide');
-                          }
+         player.loadVideoById(videoId);
+    }
 
-             videoElement.classList.remove('hide');
-
-             player.loadVideoById(videoId);
-}
-
-      //this function will set just add CSS class
-      //WRONG or CORRECT classes to selected elements
-    function setStatusClass(element, correct){
-          //first we need to clear any status class that we have
-          clearStatusClass(element)
-          //than we will see if it is correct
-          if(correct){
-              element.classList.add('correct')
-          } else {
-            element.classList.add('wrong')
-
-          }
-
-      }
-
-      //this function will remove any WRONG or CORRECT CSS classes 
-    function clearStatusClass(element){
-        element.classList.remove('correct')
-        element.classList.remove('wrong')
-      }
-    })
 
 
 
