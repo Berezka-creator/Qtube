@@ -47,7 +47,7 @@
         $("#quiz-body").hide();
 
         // Also make sure to hide and pause the video if it was already playing
-        $("#video").hide();
+        // $("#video").hide();
         try {// if player is not constructed yet skip this
 
             if (player.getPlayerState()==1){
@@ -79,14 +79,18 @@
                     var vid=item.id.videoId; // path for search api videoId
                  }
 
-                 console.log(data)
+                 console.log(item)
+
+
 
                  $('#videos').append(`
                      <article class="item" data-key="${vid}">
                          <img src="${thumb}"
                          alt="Image of ${title}"  class="thumb" />
                          <div class="details">
-                             <h1>${title}</h1>
+
+                             <h4>${title}</h4>
+                             
                              <p>${desc}</p>
                          </div>
                      </article>
@@ -152,10 +156,15 @@
     // Event handler: Main
      // When user selects a video to play
     $('#videos').on('click', 'article', function (){
+        console.log("CLICKE")
 
         //save the <article> and id of the video clicked in variable to play the video after quiz is answered
         currentArticle = $(this);
         videoId = currentArticle.attr('data-key')
+
+    
+
+
 
         //********** start the quiz game function which lead to playing the video
         startGame();
@@ -245,7 +254,7 @@
         player.pauseVideo();
 
         }
-        $('#video').hide();
+        // $('#video').hide();
 
 
         // 2. show quiz body and show current index's question

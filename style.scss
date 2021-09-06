@@ -1,0 +1,344 @@
+@mixin font-base {
+    padding: 0;
+    margin:0;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+:root{
+    --hue-neutral: 200;
+    --hue-wrong: 0;
+    --hue-correct: 145;
+}
+
+body{
+    margin: 0;
+    padding: 0;
+
+    button {
+        cursor: pointer;
+    }
+
+    a{
+        cursor:pointer;
+    }
+   
+    .container {
+        margin: 0;
+        padding: 0;
+       
+        display: flex;
+        justify-content: center;
+
+        header{
+            z-index: 100;
+            height: 6rem;
+            padding: 0 1rem;
+
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: white;
+
+            .logo{
+                width: 4.1rem;
+                height: 4.1rem;
+                padding: 0.2rem;
+                border: 1px solid black;
+             
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                font-size: 3rem;
+                font-family: 'Roboto', sans-serif;
+                }
+    
+            form {
+                width: 80%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                .form-group{
+                    width: 100%;
+                    height: 3.2rem;
+                    margin: 0 1rem;
+    
+                    display: flex;
+                    justify-content: left;
+                    align-items: center;
+
+                    input{
+                        border: 1px solid  rgb(148, 147, 147);
+                        padding: 0 1rem;
+                    }
+
+                    .form-control{
+                        width: 90%;
+                        height: 96%;
+                    }
+
+                    .search-btn{
+                        width: 6rem;
+                        height: 100%;
+
+                        font-size: 1rem;
+                        font-weight:600;
+                        color:rgb(102, 101, 101);
+
+                        background-color:   rgb(212, 209, 209);
+
+                        border: 1px solid  rgb(148, 147, 147);
+                        cursor: pointer;
+
+                        &:hover{
+                            background-color:  rgb(148, 147, 147) ;
+                            border: 1px solid rgb(148, 147, 147);
+                            color:rgb(241, 241, 241);
+                        }
+                    }
+                }
+                }
+    
+            .login{
+                display: none;
+                width: 4rem;
+                height: 4rem;
+                border-radius: 50%;
+               
+                background-color: rgb(112, 125, 150);
+                
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                font-size: 3rem;
+                color:rgb(241, 241, 241)
+
+                // display:none;
+    
+            }
+        }
+
+        main{
+            margin-top: 6rem;
+            background-color: rgb(247, 247, 247);
+            width: 100vw;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+
+            .video {  
+                width: 100%;
+                height: calc(100vh - 6rem);
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;  
+
+                .btn {
+                    background-color: white;
+                    color: black;
+                    width: 5rem;
+                    padding: 5px 7px;
+                    margin: 3px;  
+                }
+            }
+
+            .quiz-body{
+                height: calc(100vh - 6rem);
+                width: 100vw;
+                padding: 2rem 0;
+    
+                position: fixed;
+                top: 6rem;
+                
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                
+                background-color:black;
+    
+                .quiz-container{
+                    position: fixed;
+                    bottom: 10px;
+                    top: 7rem;
+                    width: 50%;
+                    max-width: 800px;
+
+                    border-radius: 8px;
+                    padding: 3%;
+                
+                    border: 2px solid white;
+
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                
+                    .question-container {
+                       
+                        .question {
+                            color: white;
+                            font-family: 'Roboto', sans-serif;
+                            font-weight: 400;
+                            font-size: 1.3rem;
+                            text-align: center;
+                            padding: 0.5rem 0.5rem;
+                        }
+
+                        .btn-grid{
+                            display: grid;
+                            grid-template-columns: repeat(2, auto);
+                            gap: 10px;
+                            margin: 20px 0;
+
+                            .btn{
+                                border-radius: 5px;
+                                padding: 8px 8px;
+
+                                color: white;
+                                border: 1px solid white;
+                                background-color: black;
+                                outline: none;
+
+                                font-family:  'Roboto', sans-serif;
+                                font-size: 1rem;
+                                font-weight: 400;
+                                
+                                &:hover{
+                                    border-color: black;
+                                    }
+
+                                &.correct {
+                                    border: none;
+                                    background-color: green;
+                                    }
+
+                                &.wrong {
+                                    border: none;
+                                    background-color: red;
+                                    }
+                                }
+                            }   
+                        }
+    
+                        .controls {
+                            justify-content: center;
+                            align-items: center;
+                            display: flex;
+    
+                            .btn {
+                                border-radius: 5px;
+                                margin: 0 1rem;
+                                height: 3rem;
+                                width: 6rem;                               
+
+                                border: 2px solid white;
+                                background-color:black;
+                                color: white;
+                                outline: none;
+
+                                font-family: 'Roboto', sans-serif;
+                                font-size: 1.4rem;
+                                font-weight: 500;
+                       
+                                &:hover{
+                                    background-color: white;
+                                    color: black;
+                                }
+
+                                &.correct {
+                                   background-color: green;
+                                }
+
+                                &.wrong {
+                                  background-color: red;
+                                }
+
+                                .cancel-btn, .next-btn, .enjoy-btn {
+                                    padding: 10px 20px;
+
+                                    font-size: 1.7rem;
+                                    font-weight: bold;
+                                    font-weight: 500;
+                                    font-family: 'Roboto', sans-serif;
+                                }
+                            }
+                        }
+                    }
+                }
+
+            #invisible{
+                position: fixed;
+                display: none;
+                width: 560px;
+                height: 260px;
+                background-color: red;
+                opacity: 0;   
+            }
+            
+            .videos{ 
+                width: 90%;
+                padding: 1rem 0;
+
+                display: flex;
+                flex-direction: column;
+              
+                article {
+                    height: 60vh;
+                    margin: 1rem;
+
+                    display: flex;
+
+                    cursor: pointer;
+
+                    .thumb{
+                        flex:1;
+
+                        padding-right: 5%;
+                        width: 50%;
+                       
+                    }
+
+                    .details {
+                        flex: 1;
+                        display: flex;
+                        flex-direction: column;
+                      
+                        h1{
+                            margin:0;
+                            
+                            font-family: 'Roboto', sans-serif;
+                            font-weight: 400;
+                            font-size: 2rem; 
+                        }
+
+                        p{
+                           color: rgb(99, 99, 99);
+                           font-family: 'Roboto', sans-serif;
+                           font-weight: 400;
+                           font-size: 1.2rem;
+                           line-height:1.6rem;
+                           letter-spacing: 0.05rem;
+                           
+                        }
+                    }
+                }
+
+            }
+
+        }
+    }
+
+}
