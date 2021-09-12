@@ -81,20 +81,25 @@
 
                  console.log(data)
 
-                 $('#videos').append(`
-                     <article class="item" data-key="${vid}">
-                         <img src="${thumb}"
-                         alt="Image of ${title}"  class="thumb" />
-                         <div class="details">
-                             <h1>${title}</h1>
-                             <p>${desc}</p>
-                         </div>
-                     </article>
+                $('#videos').append(`
+                    <article class="item" data-key="${vid}">
+                        <div class="thumb">
+                            <img src="${thumb}" alt="Image of ${title}"  class="thumb" />
+                        </div>
+
+                        <div class="details">
+                            <div class="description">
+                                <h1>${title}</h1>
+                                <p>${desc}</p>
+                            </div>
+                        </div>
+                    </article>
                  `);
              });
 
         });
     }
+
 
     //****** YouTube data api variables for loading a playlist and pass to loadVids function****************//
 
@@ -105,7 +110,7 @@
     var options = {
          part: 'snippet',
          key: API_KEY,
-         maxResults: 20,
+         maxResults: 10,
          playlistId: playlistId,
 
     }

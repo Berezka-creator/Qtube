@@ -1,3 +1,4 @@
+
 @mixin font-base {
     padding: 0;
     margin:0;
@@ -33,15 +34,85 @@ p {
     font-size: 0.7rem;
 }
 
+
 body {
-    background-color: #eee;
+    width: 100vw;
 }
 
+*{border: 1px solid black;}
+
 .container {
-    width: 560px;
+    width: 100%;
+    background-color: rgb(173, 170, 170);
+}
+
+header{
+    width:100%;
+    position: fixed;
+    top:0;
+    left: 0;
     background-color: #fff;
+    display: flex;
+    justify-content: space-between;;
+}
+
+
+
+form {
+    top: 50px;
+    padding: 20px 0;
+}
+
+#search {
+    width: 400px;
+}
+
+section {
+    top: 100px;
+
+}
+
+.logo {
+    width: 120px;
+    padding: 10px;
+}
+
+
+
+main{
+    padding:30px 38px 10px;
+}
+
+article {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border: 2px solid white;
+    border-radius: 8px;
     margin: 0 auto;
 }
+
+article:hover{
+    border: 2px solid #ff9999;
+    border-radius: 8px;
+}
+
+.thumb {
+    height: 70px;
+    border-radius: 4px;
+}
+
+.details {
+    padding: 8px 22px;
+
+}
+
+
+.disable{
+    pointer-events: none;
+}
+
+
 
 .quiz-body{
     --hue:var(--hue-neutral);
@@ -61,7 +132,7 @@ body {
     height: 260px;
     background-color: red;
     opacity: 0;
-   
+
 
 }
 
@@ -125,68 +196,3 @@ body {
     justify-content: center;
     align-items: center;
 }
-
-
-
-
-header, section, form {
-    position: fixed;
-    text-align: center;
-    width: 560px;
-    background-color: #fff;
-}
-
-form {
-    top: 50px;
-    padding: 20px 0;
-}
-
-#search {
-    width: 400px;
-}
-
-section {
-    top: 100px;
-   
-}
-
-.logo {
-    width: 120px;
-    padding: 10px;
-
-
-}
-
-main{
-    padding:30px 38px 10px;
-}
-
-article {
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    border: 2px solid white;
-    border-radius: 8px;
-    margin: 0 auto;
-}
-
-article:hover{
-    border: 2px solid #ff9999;
-    border-radius: 8px;
-}
-
-.thumb {
-    height: 70px;
-    border-radius: 4px;
-}
-
-.details {
-    padding: 8px 22px;
-
-}
-
-
-.disable{
-    pointer-events: none;
-}
-

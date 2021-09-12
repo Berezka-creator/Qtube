@@ -1,29 +1,30 @@
 :root {
-  --hue-neutral: 200;
-  --hue-wrong: 0;
-  --hue-correct: 145;
+  --header-height: 4rem;
+  --screen-width: 40rem;
 }
 
-body {
+html {
+  height: 100%;
+}
+html body {
+  font-family: "Roboto", sans-serif;
   margin: 0;
   padding: 0;
+  padding-top: var(--header-height);
+  box-sizing: border-box;
 }
-body button {
-  cursor: pointer;
+@supports (display: grid) {
+  html body {
+    display: grid;
+    grid-template-rows: var(--header-height) auto fit-content(8rem);
+    grid-template-areas: "header" "main" "footer";
+    padding-top: 0;
+    height: 100%;
+  }
 }
-body a {
-  cursor: pointer;
-}
-body .container {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-}
-body .container header {
+html body header {
   z-index: 100;
-  height: 6rem;
-  padding: 0 1rem;
+  height: var(--header-height);
   position: fixed;
   top: 0;
   left: 0;
@@ -33,188 +34,172 @@ body .container header {
   align-items: center;
   background-color: white;
 }
-body .container header .logo {
-  width: 4.1rem;
-  height: 4.1rem;
-  padding: 0.2rem;
-  border: 1px solid black;
+html body header .logo {
+  width: calc(var(--header-height) - 1rem);
+  height: calc(var(--header-height) - 1rem);
+  padding: 0;
+  border: 2px solid black;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 3rem;
+  font-size: 1rem;
   font-family: "Roboto", sans-serif;
+  font-weight: 700;
 }
-body .container header form {
-  width: 80%;
+html body header form {
+  height: calc(var( --header-height) - 2rem);
+  width: 70%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-body .container header form .form-group {
+html body header form .form-group {
   width: 100%;
-  height: 3.2rem;
-  margin: 0 1rem;
+  height: 100%;
   display: flex;
   justify-content: left;
   align-items: center;
 }
-body .container header form .form-group input {
+html body header form .form-group input {
   border: 1px solid #949393;
-  padding: 0 1rem;
+  padding: 0 1%;
 }
-body .container header form .form-group .form-control {
-  width: 90%;
-  height: 96%;
+html body header form .form-group .form-control {
+  width: 86%;
+  height: 93%;
 }
-body .container header form .form-group .search-btn {
-  width: 6rem;
+html body header form .form-group .search-btn {
+  width: auto;
   height: 100%;
-  font-size: 1rem;
+  padding: 1%;
   font-weight: 600;
   color: #666565;
   background-color: #d4d1d1;
   border: 1px solid #949393;
   cursor: pointer;
 }
-body .container header form .form-group .search-btn:hover {
+html body header form .form-group .search-btn:hover {
   background-color: #949393;
   border: 1px solid #949393;
   color: #f1f1f1;
 }
-body .container header .login {
-  display: none;
-  width: 4rem;
-  height: 4rem;
-  border-radius: 50%;
-  background-color: #707d96;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 3rem;
-  color: #f1f1f1;
+html body main {
+  grid-area: main;
+  padding: 3% 3%;
 }
-body .container main {
-  margin-top: 6rem;
-  background-color: #f7f7f7;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-body .container main .video {
+html body main .video {
   width: 100%;
-  height: calc(100vh - 6rem);
+  padding: 2rem 0;
   background-color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-body .container main .video .btn {
+html body main .video iframe {
+  width: 90%;
+  height: 500px;
+}
+html body main .video .btn {
   background-color: white;
   color: black;
-  width: 5rem;
-  padding: 5px 7px;
-  margin: 3px;
+  width: var(--header-height);
+  padding: var(--header-height) calc(var( --header-height) + 2rem);
+  margin: calc(var( --header-height) - 2rem);
 }
-body .container main .quiz-body {
-  height: calc(100vh - 6rem);
-  width: 100vw;
-  padding: 2rem 0;
+html body main .quiz-body {
+  height: calc(100vh - var(--header-height));
   position: fixed;
-  top: 6rem;
+  top: var(--header-height);
+  left: 0;
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: black;
 }
-body .container main .quiz-body .quiz-container {
-  position: fixed;
-  bottom: 10px;
-  top: 7rem;
-  width: 50%;
-  max-width: 800px;
-  border-radius: 8px;
-  padding: 3%;
+html body main .quiz-body .quiz-container {
+  width: 80%;
+  padding: 1%;
   border: 2px solid white;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-content: center;
 }
-body .container main .quiz-body .quiz-container .question-container .question {
+@media (min-width: 40rem) {
+  html body main .quiz-body .quiz-container {
+    width: 60%;
+  }
+}
+html body main .quiz-body .quiz-container .question-container .question {
   color: white;
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-size: 1.3rem;
   text-align: center;
-  padding: 0.5rem 0.5rem;
+  margin: 1%;
 }
-body .container main .quiz-body .quiz-container .question-container .btn-grid {
-  display: grid;
-  grid-template-columns: repeat(2, auto);
-  gap: 10px;
-  margin: 20px 0;
+html body main .quiz-body .quiz-container .question-container .btn-grid {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
-body .container main .quiz-body .quiz-container .question-container .btn-grid .btn {
-  border-radius: 5px;
-  padding: 8px 8px;
+html body main .quiz-body .quiz-container .question-container .btn-grid .btn {
   color: white;
-  border: 1px solid white;
   background-color: black;
+  border: 1px solid white;
   outline: none;
   font-family: "Roboto", sans-serif;
   font-size: 1rem;
   font-weight: 400;
+  width: 60%;
+  margin: 1%;
+  padding: 2%;
 }
-body .container main .quiz-body .quiz-container .question-container .btn-grid .btn:hover {
+html body main .quiz-body .quiz-container .question-container .btn-grid .btn:hover {
   border-color: black;
 }
-body .container main .quiz-body .quiz-container .question-container .btn-grid .btn.correct {
+html body main .quiz-body .quiz-container .question-container .btn-grid .btn.correct {
   border: none;
   background-color: green;
 }
-body .container main .quiz-body .quiz-container .question-container .btn-grid .btn.wrong {
+html body main .quiz-body .quiz-container .question-container .btn-grid .btn.wrong {
   border: none;
   background-color: red;
 }
-body .container main .quiz-body .quiz-container .controls {
+html body main .quiz-body .quiz-container .controls {
   justify-content: center;
   align-items: center;
   display: flex;
 }
-body .container main .quiz-body .quiz-container .controls .btn {
-  border-radius: 5px;
-  margin: 0 1rem;
-  height: 3rem;
-  width: 6rem;
-  border: 2px solid white;
+html body main .quiz-body .quiz-container .controls .btn {
   background-color: black;
   color: white;
   outline: none;
   font-family: "Roboto", sans-serif;
-  font-size: 1.4rem;
+  font-size: 1rem;
   font-weight: 500;
 }
-body .container main .quiz-body .quiz-container .controls .btn:hover {
+html body main .quiz-body .quiz-container .controls .btn:hover {
   background-color: white;
   color: black;
 }
-body .container main .quiz-body .quiz-container .controls .btn.correct {
+html body main .quiz-body .quiz-container .controls .btn.correct {
   background-color: green;
 }
-body .container main .quiz-body .quiz-container .controls .btn.wrong {
+html body main .quiz-body .quiz-container .controls .btn.wrong {
   background-color: red;
 }
-body .container main .quiz-body .quiz-container .controls .btn .cancel-btn, body .container main .quiz-body .quiz-container .controls .btn .next-btn, body .container main .quiz-body .quiz-container .controls .btn .enjoy-btn {
+html body main .quiz-body .quiz-container .controls .btn .cancel-btn, html body main .quiz-body .quiz-container .controls .btn .next-btn, html body main .quiz-body .quiz-container .controls .btn .enjoy-btn {
   padding: 10px 20px;
   font-size: 1.7rem;
   font-weight: bold;
   font-weight: 500;
   font-family: "Roboto", sans-serif;
 }
-body .container main #invisible {
+html body main #invisible {
   position: fixed;
   display: none;
   width: 560px;
@@ -222,41 +207,78 @@ body .container main #invisible {
   background-color: red;
   opacity: 0;
 }
-body .container main .videos {
+html body main .videos article {
+  height: 100px;
+  margin-bottom: 2%;
+  display: flex;
+}
+@media (min-width: 25rem) {
+  html body main .videos article {
+    height: 130px;
+  }
+}
+@media (min-width: 40rem) {
+  html body main .videos article {
+    height: 190px;
+  }
+}
+@media (min-width: 55rem) {
+  html body main .videos article {
+    height: 280px;
+  }
+}
+html body main .videos article .thumb {
+  flex: 1;
+  height: 100%;
+}
+html body main .videos article .thumb img {
+  height: 100%;
+  display: block;
+  margin: auto;
+}
+html body main .videos article .details {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+html body main .videos article .details .description {
   width: 90%;
-  padding: 1rem 0;
-  display: flex;
-  flex-direction: column;
 }
-body .container main .videos article {
-  height: 60vh;
-  margin: 1rem;
-  display: flex;
-  cursor: pointer;
-}
-body .container main .videos article .thumb {
-  flex: 1;
-  padding-right: 5%;
-  width: 50%;
-}
-body .container main .videos article .details {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-body .container main .videos article .details h1 {
-  margin: 0;
+html body main .videos article .details .description h1 {
+  font-size: 1rem;
   font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-size: 2rem;
 }
-body .container main .videos article .details p {
-  color: #636363;
+@media (min-width: 25rem) {
+  html body main .videos article .details .description h1 {
+    font-size: 1rem;
+  }
+}
+@media (min-width: 40rem) {
+  html body main .videos article .details .description h1 {
+    font-size: 1.5rem;
+  }
+}
+@media (min-width: 55rem) {
+  html body main .videos article .details .description h1 {
+    font-size: 2rem;
+  }
+}
+html body main .videos article .details .description p {
+  display: none;
   font-family: "Roboto", sans-serif;
-  font-weight: 400;
-  font-size: 1.2rem;
-  line-height: 1.6rem;
-  letter-spacing: 0.05rem;
+}
+@media (min-width: 40rem) {
+  html body main .videos article .details .description p {
+    display: none;
+  }
+}
+@media (min-width: 55rem) {
+  html body main .videos article .details .description p {
+    display: block;
+  }
+}
+html body footer {
+  grid-area: footer;
 }
 
 /*# sourceMappingURL=style.css.map */

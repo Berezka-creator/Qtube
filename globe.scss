@@ -1,0 +1,32 @@
+$mainColor: #15023a;
+
+$largeMobileWidth: 25rem;
+$width: 40rem;
+$tabletWidth: 55rem;
+
+$header_height: 5rem;
+
+
+@mixin mobile {
+    @media(max-width: #{$width}){
+        @content
+    }
+};
+
+@mixin largeMobile {
+    @media(min-width: #{$largeMobileWidth}){
+        @content
+    }
+};
+
+@mixin desktop {
+    @media(min-width: #{$tabletWidth}){
+        @content
+    }
+};
+
+@mixin tablet {
+    @media(min-width: #{$width}){
+        @content
+    }
+};
