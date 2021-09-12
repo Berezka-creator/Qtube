@@ -205,6 +205,7 @@
                     $(this).addClass('wrong');
                 }
             });
+            $("#incorrectMessage").show();
 
             // 2. disable the answers so user cannot click again
             $('#answer-buttons').addClass('disable');
@@ -213,6 +214,8 @@
             $('#quiz-body').addClass('wrong');
             // 4. show the next button
             $('#next-btn').show();
+            //5. Hide the question instructions to save space on the page
+            $("#questionInstruction").hide();
 
         }
     });
@@ -254,12 +257,14 @@
 
 
         // 2. show quiz body and show current index's question
-        $('#quiz-body').show();
+
         showQuestion(shuffledQuestions[currentQuestionIndex])
     }
 
     // ***** show question function that display and sets up the quiz body
     function showQuestion(questionObj) {
+
+        $('#quiz-body').show();
 
         //1. Remove ALL previous correct and wrong CSS classes
         $('.correct').removeClass('correct');
@@ -270,19 +275,30 @@
 
 
         // 3. Answers Buttons:
+        // create variable to store the correct answer to display later in incorrect answer message
+        var correctAnswer;
         // a. loop through our answers in the questions Object
         $.each(questionObj.answers,function (index, answer){
             // b. add dataset to identify which button is correct or not
             answerBtn= $('#answer'+index);
             answerBtn.text(answer.text);
             answerBtn.data('correct',answer.correct); // store true or false for key "correct"
-
+            if (answer.correct){
+                correctAnswer = answer.text;
+            }
         });
         // c. Remove previous disable CSS class if present
         $('#answer-buttons').removeClass('disable');
 
         // 3. Hide the next button to prevent user from skipping the question
         $("#next-btn").hide();
+
+        //4. Write the Incorrect Message and hide it for now
+        $("#incorrectMessage").text("Incorrect! The correct answer is: " + correctAnswer + ". Click next to try  thenext question");
+        $("#incorrectMessage").hide();
+
+        //5. Show the Instructions
+        $("#questionInstruction").show();
 
     }
 
@@ -306,9 +322,11 @@
              $('#prev-video-btn').hide();
          }
 
-         // show and play video!
+         // show, scroll to and play video!
          $('#video').show();
-
+         $('html, body').animate({
+             scrollTop: ($('#video').offset().top)
+         },0);
          player.loadVideoById(videoId);
     }
 
