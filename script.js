@@ -102,7 +102,6 @@
 
 
     //****** YouTube data api variables for loading a playlist and pass to loadVids function****************//
-
     var API_KEY="AIzaSyAEHX8Fv1RLEWVKWFzzk7QlB-2mb1RsvVo"; // used for both search and playlistitems api
 
     var playlistId = 'PLcHIy7MhWjmgA2YfyLc9kQpYOENBB9X_y';
@@ -114,14 +113,17 @@
          playlistId: playlistId,
 
     }
+    // Will start the website with just a search for now
+    // loadVids(URL, options);
 
-    loadVids(URL, options);
-
+    // since we will not call loadvids() we need to hide quiz and player
+    $("#quiz-body").hide();
+    $("#video").hide();
 
     //******* SEARCH VIDEOS, event handlet for form submission
     $("#form").submit(function(event){
         event.preventDefault()
-
+        $("#search").blur();
         // get the value to search
         var search=$("#search").val()
         //set up youtube api search variables
