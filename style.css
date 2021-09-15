@@ -1,5 +1,5 @@
 :root {
-  --header-height: 4rem;
+  --header-height: 3rem;
   --screen-width: 40rem;
 }
 
@@ -25,18 +25,45 @@ html body {
 html body header {
   z-index: 100;
   height: var(--header-height);
+  padding: 0 3%;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   display: flex;
+  justify-content: end;
+  align-items: center;
+}
+html body header .menu-section {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+@media (min-width: 55rem) {
+  html body header .menu-section {
+    width: 2rem;
+    height: 2rem;
+  }
+}
+html body .search-section {
+  height: var(--header-height);
+  position: fixed;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  z-index: 201;
+  display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: white;
 }
-html body header .logo {
-  width: calc(var(--header-height) - 1rem);
-  height: calc(var(--header-height) - 1rem);
+@media (min-width: 55rem) {
+  html body .search-section {
+    left: 20%;
+    right: 20%;
+  }
+}
+html body .search-section .logo {
+  width: calc(var(--header-height) - 1.5rem);
+  height: calc(var(--header-height) - 1.5rem);
   padding: 0;
   border: 2px solid black;
   display: flex;
@@ -46,42 +73,48 @@ html body header .logo {
   font-family: "Roboto", sans-serif;
   font-weight: 700;
 }
-html body header form {
-  height: calc(var( --header-height) - 2rem);
-  width: 70%;
+html body .search-section form {
+  height: 50%;
+  width: 80%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-html body header form .form-group {
+html body .search-section form .form-group {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: left;
   align-items: center;
 }
-html body header form .form-group input {
+html body .search-section form .form-group input {
   border: 1px solid #949393;
   padding: 0 1%;
 }
-html body header form .form-group .form-control {
+html body .search-section form .form-group .form-control {
   width: 86%;
   height: 93%;
 }
-html body header form .form-group .search-btn {
+html body .search-section form .form-group .search-btn {
   width: auto;
   height: 100%;
-  padding: 1%;
-  font-weight: 600;
+  font-weight: 400;
   color: #666565;
   background-color: #d4d1d1;
   border: 1px solid #949393;
   cursor: pointer;
 }
-html body header form .form-group .search-btn:hover {
+html body .search-section form .form-group .search-btn:hover {
   background-color: #949393;
   border: 1px solid #949393;
   color: #f1f1f1;
+}
+html body .search-center {
+  height: calc(var(--header-height) + 1rem);
+  top: 20%;
+  padding: 0.4%;
+  border-radius: 8px;
+  box-shadow: 5px 10px 18px #888888;
 }
 html body main {
   grid-area: main;

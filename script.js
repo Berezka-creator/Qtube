@@ -136,6 +136,8 @@
              q: search,
         }
         // pass them into the loadvids function
+      
+        $('#search-section').removeClass('search-center')
         loadVids(URL, options);
     });
 
