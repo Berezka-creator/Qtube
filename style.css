@@ -109,8 +109,7 @@ html body .search-center {
   height: calc(var(--header-height) + 1rem);
   top: 20%;
   padding: 0.4%;
-  border-radius: 8px;
-  box-shadow: 5px 10px 18px #888888;
+  border: 2px solid #acabab;
 }
 html body main {
   grid-area: main;
