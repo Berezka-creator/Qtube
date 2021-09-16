@@ -84,16 +84,13 @@ html{
             }
 
             .logo{
-                width: calc(#{var( --header-height)} - 1rem);
-                height: calc(#{var( --header-height)} - 1rem);
-                padding: 0.2rem;
-                border: 2px solid black;
-             
+              
+              
                 display: flex;
                 justify-content: center;
                 align-items: center;
 
-                font-size:1rem;
+                font-size:2rem;
                 font-family: 'Roboto', sans-serif;
                 font-weight: 700;
                 }
