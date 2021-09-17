@@ -79,7 +79,7 @@
                     var vid=item.id.videoId; // path for search api videoId
                  }
 
-                 console.log(data)
+                 //console.log(data)
 
                 $('#videos').append(`
                     <article class="item" data-key="${vid}">
@@ -96,6 +96,8 @@
                     </article>
                  `);
              });
+         // add to history
+         saveState();
 
         });
     }
@@ -119,6 +121,8 @@
     // since we will not call loadvids() we need to hide quiz and player
     $("#quiz-body").hide();
     $("#video").hide();
+    // add to history
+     saveState();
 
     //******* SEARCH VIDEOS, event handlet for form submission
     $("#form").submit(function(event){
@@ -132,7 +136,7 @@
              part: 'snippet',
              key: API_KEY,
              type: 'video',
-             maxResults: 20,
+             maxResults: 10,
              q: search,
         }
         // pass them into the loadvids function
@@ -172,6 +176,8 @@
     // next and close buttons
     $('#cancel-btn').on('click', () => {
         $('#quiz-body').hide();
+        // save to history
+        saveState();
     })
     $('#next-btn').on('click', () => {
 
@@ -243,6 +249,7 @@
         player.pauseVideo();
         }
         $("#video").hide();
+        saveState();
     });
 
 
@@ -252,7 +259,7 @@
 
         // 1. Make sure to hide and pause the video if it is playing
         if (player.getPlayerState()==1){ // 1 means playing
-        player.pauseVideo();
+            player.pauseVideo();
 
         }
         $('#video').hide();
@@ -261,6 +268,9 @@
         // 2. show quiz body and show current index's question
 
         showQuestion(shuffledQuestions[currentQuestionIndex])
+
+        // 3. save to history
+        saveState();
     }
 
     // ***** show question function that display and sets up the quiz body
@@ -331,6 +341,54 @@
          },0);
          player.loadVideoById(videoId);
     }
+
+
+
+    //************ functions and event handlers to manage browser history *************
+    function saveState(isVideoClicked){
+        let videosHTML = $("#videos").html();
+        let videoDisplay = $("#video").is(':visible')  || $("#quiz-body").is(':visible');
+        let video = videoId;
+        let searchVal = $("#search").val();
+         history.pushState(
+         {
+             'videos':videosHTML,
+             'search':searchVal,
+             'video':video,
+             "videoDisplay":videoDisplay
+         },
+         "","?search="+searchVal+"&video="+video+"&videoDisplay="+videoDisplay );
+         // console.log(history.state);
+    }
+
+    window.addEventListener('popstate', (event) => {
+        // make sure to the quiz window
+        $("#quiz-body").hide();
+
+        // Also make sure to hide and pause the video if it was already playing
+        $("#video").hide();
+        try {// if player is not constructed yet skip this
+
+            if (player.getPlayerState()==1){
+                player.pauseVideo();
+            }
+
+        } catch (e){(console.log("player did not load yet"));}
+
+        // restore the videosssection
+        $("#videos").html(history.state.videos);
+        // restore the form value
+        $("#search").val(history.state.search);
+        // if video or quiz was open in this state, re-open that video but prompt the quiz first
+        if (history.state.videoDisplay){
+            videoId = history.state.video;
+            currentArticle = $("article[data-key='"+videoId+"']");
+
+            showQuestion(shuffledQuestions[currentQuestionIndex])
+        }
+
+
+    });
 
 
 
