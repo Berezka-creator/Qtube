@@ -22,29 +22,27 @@
 
 <body>
 
-<header>
+    <header>
+    <div class="menu-section"></div>
+    </header>
+
+    <div class="search-section search-center" id="search-section">
     <div class="logo">
-
         Quby
-
-
     </div>
     <form id="form">
         <div class="form-group">
-            <input type="text"  class="form-control" id="search" />
+            <input type="text"  class="form-control" id="search" placeholder="Search YouTube Videos" />
             <input type="submit" class="search-btn btn-danger" value="Search" />
         </div>
     </form>
-
-    <!-- <div class="login">
-
-    </div> -->
-</header>
+    </div>
 
 
-<main id="main">
 
-    <section id="video" class="video">
+    <main>
+
+        <section id="video" class="video">
         <iframe id="player"
                 src="https://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&modestbranding=1"
                 frameborder="0"
@@ -58,11 +56,11 @@
             <button id="next-video-btn" class="next-btn btn">Next</button>
 
         </div>
-    </section>
+        </section>
 
 
  
-    <section id="quiz-body" class="quiz-body">
+        <section id="quiz-body" class="quiz-body">
 
         <div class="quiz-container">
 
@@ -102,19 +100,15 @@
         </div>
 
 
-    </section>
+        </section>
 
-    <section id="invisible" ></section>
+        <section id="invisible"></section>
 
-    <div class="videos" id="videos">
+        <div class="videos" id="videos"></div>
 
+    </main>
 
-
-    </div>
-
-</main>
-
-<footer>Footer</footer>
+<footer></footer>
 
 
 

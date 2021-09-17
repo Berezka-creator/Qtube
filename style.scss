@@ -8,14 +8,13 @@ $breakpoint-tablet: 40rem;
     font-weight: 600;
 }
 :root{
-    --header-height: 4rem;
+    --header-height: 3rem;
     --screen-width: 40rem;
 }
 
 html{
     height: 100%;
-
-
+  
 
     body{
         font-family: 'Roboto', sans-serif;
@@ -38,6 +37,7 @@ html{
         header{
             z-index: 100;
             height:var( --header-height);
+            padding: 0 3%;
           
             position: fixed;
             top: 0;
@@ -45,28 +45,60 @@ html{
             right: 0;
         
             display: flex;
+            justify-content: end;
+            align-items: center;
+           
+
+            .menu-section{
+              
+                width: 1.5rem;
+                height: 1.5rem;
+
+                @include desktop{
+                    width: 2rem;
+                    height: 2rem;
+
+                }
+            }
+        }
+
+
+        .search-section{
+           
+            height:var( --header-height);
+            
+            position: fixed;
+            top: 0;
+            left:10%;
+            right: 10%;
+            z-index: 201;
+
+            display: flex;
             justify-content: space-around;
             align-items: center;
-            background-color: white;
+
+            @include desktop {
+                left:20%;
+                right: 20%;
+
+            }
 
             .logo{
-                width: calc(#{var( --header-height)} - 1rem);
-                height: calc(#{var( --header-height)} - 1rem);
-                padding: 0;
-                border: 2px solid black;
-             
+              
+              
                 display: flex;
                 justify-content: center;
                 align-items: center;
 
-                font-size:1rem;
+                font-size:2rem;
                 font-family: 'Roboto', sans-serif;
                 font-weight: 700;
                 }
     
             form {
-                height: calc(var( --header-height) - 2rem);
-                width: 70%;
+                
+                height: 50%;
+                width: 80%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -92,9 +124,9 @@ html{
                     .search-btn{
                         width: auto;
                         height: 100%;
-                        padding: 1%;
+                       
                      
-                        font-weight:600;
+                        font-weight:400;
                         color:rgb(102, 101, 101);
 
                         background-color:   rgb(212, 209, 209);
@@ -110,8 +142,19 @@ html{
                     }
                 }
             }
-    
+           
         }
+
+        .search-center{
+           
+            height: calc(#{var( --header-height)} + 1rem);
+            top: 20%;
+            padding: 0.4%;
+            border: 2px solid rgb(172, 171, 171);
+          
+           
+        }
+
      
         main{
             grid-area: main;

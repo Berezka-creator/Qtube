@@ -56,7 +56,8 @@
 
         } catch (e){(console.log("player did not load yet"));}
 
-
+        // move the search bar to the top
+        $('#search-section').removeClass('search-center')
 
         // Empty previous videos if needed
         $("#videos").empty()
