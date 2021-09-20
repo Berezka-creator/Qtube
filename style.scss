@@ -171,15 +171,24 @@ html{
                     width: 90%;
                     height: 450px;
                 }
+            }    
+
+            .controls{
+                height: 3rem;
+                display:flex;
+                justify-content: center;
+                align-items: center;
 
                 .btn {
                     background-color: white;
                     color: black;
-                    width:5rem;
+                    width:6rem;
                     padding: 3%;
                     margin: 5%;  
                 }
+
             }
+
 
             .quiz-body{
                 height: calc(100vh - var(--header-height));
@@ -236,7 +245,7 @@ html{
                            
                             font-family: 'Roboto', sans-serif;
                             font-weight: 600;
-                            font-size: 1rem;
+                            font-size: 1.3rem;
                             text-align: center;
                             color: white;
                             margin-top:0;
@@ -268,14 +277,16 @@ html{
                                 border: 1px solid white;
                                 outline: none;
 
-                                font-size: 1rem;
-                                width: 60%;
-                                padding: 2%;
+                                font-size: 1.5rem;
+                                width: 70%;
+                                padding: 5%;
                                 margin-bottom: 2%;
 
                                 @include desktop {
-                                    width: 7rem;
-                                    height: 3rem;
+                                    font-size: 1.3rem;
+                                    width: 10rem;
+                                    min-height: 3rem;
+                                    padding: 5%;
                                 }
                                
 
@@ -318,7 +329,7 @@ html{
 
                                 font-family:  'Roboto', sans-serif;
                                 
-                                font-size: 1rem;
+                                font-size: 1.2rem;
                                 font-weight: 400;
                                 width: 5rem;
                                 height: 3rem;
