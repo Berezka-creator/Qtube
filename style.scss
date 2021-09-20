@@ -38,6 +38,7 @@ html{
             z-index: 100;
             height:var( --header-height);
             padding: 0 3%;
+            background-color: white;
           
             position: fixed;
             top: 0;
@@ -146,15 +147,11 @@ html{
         }
 
         .search-center{
-           
             height: calc(#{var( --header-height)} + 1rem);
             top: 20%;
             padding: 0.4%;
             border: 2px solid rgb(172, 171, 171);
-          
-           
         }
-
      
         main{
             grid-area: main;

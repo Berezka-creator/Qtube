@@ -26,6 +26,7 @@ html body header {
   z-index: 100;
   height: var(--header-height);
   padding: 0 3%;
+  background-color: white;
   position: fixed;
   top: 0;
   left: 0;
