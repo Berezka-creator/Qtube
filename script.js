@@ -391,6 +391,66 @@
 
     });
 
+    // ************* Link to other pages function **********
+    $("a").on('click',function(e){
+        e.preventDefault();
+        // get the href value (file name)
+        let href = $(this).attr('href');
+
+        // load the html file
+        $.get(href,function(data){
+            // make sure to the quiz window
+            $("#quiz-body").hide();
+
+            // Also make sure to hide and pause the video if it was already playing
+            $("#video").hide();
+            try {// if player is not constructed yet skip this
+
+                if (player.getPlayerState()==1){
+                    player.pauseVideo();
+                }
+
+            } catch (e){(console.log("player did not load yet"));}
+            // Empty previous videos if needed
+            $("#videos").empty()
+            // move the search bar to the top
+            $('#search-section').removeClass('search-center')
+            // write the content to the page
+            $("#videos").html(data);
+
+            // save to browser history
+            saveState();
+        });
+    });
+
+
+    // ************** feedback form ****************
+    $("main").on('submit','#feedback',function(e){
+
+        e.preventDefault();
+        let name = $("#name").val();
+        let message = $('textarea').val();
+        if (message == ""){
+            // blank form do nothing
+        } else {
+            // send info to php so it can send the e-mail
+            $.ajax({
+                headers:{"Accept":"application/json"},
+                type: "POST",
+                url: "https://formspree.io/f/mgerdnbg",
+                crossDomain: true,
+                data:{"name":name, "message":message},
+                success: function(data){
+                    console.log(data);
+                    $("#thankyou").text("Thank you for your feedback!");;
+
+                }
+
+            });
+
+        }
+
+    });
 
 
 
