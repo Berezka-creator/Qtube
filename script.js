@@ -434,12 +434,17 @@
             // blank form do nothing
         } else {
             // send info to php so it can send the e-mail
-            $.post('https://formspree.io/f/mgerdnbg',{
-                "name": name,
-                "message": message
-            },function(data){
-            console.log("info sent to formspree, it returned: " + data );
-            $("#thankyou").text("Thank you for your feedback!");
+            $.ajax({
+                headers:{"Accept":"application/json"},
+                type: "POST",
+                url: "https://formspree.io/f/mgerdnbg",
+                crossDomain: true,
+                data:{"name":name, "message":message},
+                success: function(data){
+                    console.log(data);
+                    $("#thankyou").text("Thank you for your feedback!");;
+
+                }
 
             });
 
