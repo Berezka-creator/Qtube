@@ -426,20 +426,23 @@
 
     // ************** feedback form ****************
     $("main").on('submit','#feedback',function(e){
+
         e.preventDefault();
         let name = $("#name").val();
-        let message = $('#message').val();
+        let message = $('textarea').val();
         if (message == ""){
             // blank form do nothing
         } else {
             // send info to php so it can send the e-mail
-            $.post('feedback.php',{
-                name1: name,
-                message1: message
+            $.post('https://formspree.io/f/mgerdnbg',{
+                "name": name,
+                "message": message
             },function(data){
-            console.log("info sent to php, it returned: " + data );
+            console.log("info sent to formspree, it returned: " + data );
             $("#thankyou").text("Thank you for your feedback!");
+
             });
+
         }
 
     });
