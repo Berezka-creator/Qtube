@@ -36,14 +36,35 @@ html body header {
   align-items: center;
 }
 html body header .menu-section {
-  width: 1.5rem;
-  height: 1.5rem;
+  border: 1px solid black;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  align-items: center;
+  justify-content: end;
 }
-@media (min-width: 55rem) {
-  html body header .menu-section {
-    width: 2rem;
-    height: 2rem;
-  }
+html body header .menu-section ul {
+  list-style: none;
+  display: flex;
+}
+html body header .menu-section ul li {
+  margin: 0 1rem;
+}
+html body header .menu-section ul li a {
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+}
+html body header .menu-section ul li ahover {
+  color: white;
+  background-color: darkblue;
 }
 html body .search-section {
   height: var(--header-height);
@@ -362,7 +383,3 @@ html body footer {
 }
 
 /*# sourceMappingURL=style.css.map */
-
-/* Hide the ul of links for now until styling is complete and about us page is typed */
-
-ul { display:none;}

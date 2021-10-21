@@ -51,15 +51,43 @@ html{
            
 
             .menu-section{
-              
-                width: 1.5rem;
-                height: 1.5rem;
+                border: 1px solid black;
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                z-index: 100;
+                display: -webkit-box;
+                display: -ms-flexbox;
+                display: -webkit-flex;
+                display: flex;
+                align-items: center;
+                justify-content: end;
+                ul {
+                    list-style: none;
+                    display: flex;
+                    li{
+                        margin: 0 1rem;
+                        a{
+                            text-decoration: none;
+                            font-weight: bold;
+                            color: black;
 
-                @include desktop{
-                    width: 2rem;
-                    height: 2rem;
+                            &hover{
+                                color:white;
+                                background-color: darkblue;
+                            }
+                        }
+                    }
 
                 }
+
+                @include desktop{
+                   
+
+                }
+
             }
         }
 
