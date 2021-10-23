@@ -18,33 +18,64 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="script.js"></script>
 
+    <link rel="stylesheet" 
+    href=
+"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<script src="https://kit.fontawesome.com/a279382ae0.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
     <header>
-    <div class="menu-section">
-        <ul>
-            <li><a href="aboutus.html">About Us</a></li>
-            <li><a href="feedback.html">Feedback</a></li>
-        </ul>
-    </div>
+            <div class="left_header" >
+                <button class="toggle-button active " >
+                    <span class="toggle-button__bar"></span>
+                    <span class="toggle-button__bar"></span>
+                    <span class="toggle-button__bar"></span>
+                </button>
+                <a href="index.html" class="main-header__brand">
+                    Qtube
+                </a>
+            </div>
+
+            <div class="center_header">
+                <form id="form">
+                    <div class="form-group">
+                        <input type="text"  class="form-control" id="search" placeholder="Search YouTube Videos" />
+                        
+                        <button type="submit" class="search-btn btn-danger" value="Search">
+                            <i class="fas fa-search fa-2x icon" ></i>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- <div class="mic"></div> -->
+
+            </div>
+
+            <div class="right_header">
+                <!-- <div class="login">
+                    <p>Y</p>
+                </div> -->
+            </div>
     </header>
+    <!-- <div class="backdrop">
 
-    <div class="search-section search-center" id="search-section">
-    <div class="logo">
-        Quby
-    </div>
-    <form id="form">
-        <div class="form-group">
-            <input type="text"  class="form-control" id="search" placeholder="Search YouTube Videos" />
-            <input type="submit" class="search-btn btn-danger" value="Search" />
-        </div>
-    </form>
-    </div>
+    </div> -->
+    
+    <nav class="main-nav">
+        <ul class="main-nav__items">
+            <li class="main-nav__item">
+                <a href="aboutus.html">About Us</a>
+            </li>
+            <li class="main-nav__item">
+                <a href="feedback.html">Feedback</a>
+            </li>
+        </ul>
+    </nav>
 
-
-
+    
     <main>
 
         <section id="video" class="video">
