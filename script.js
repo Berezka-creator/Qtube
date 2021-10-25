@@ -1,6 +1,35 @@
 
  $(document).ready(function(){
 
+    //to open menu on click function
+  
+    var open = false;
+    console.log(open);
+
+    $(".toggle-button").click(function(){
+        
+            if(open === false) {
+
+                console.log("if")
+                console.log(open)
+                $(this).addClass("active");
+
+                $(".backdrop").css("display", "block");
+                $(".main-nav").css("transform", "translateX(0%)");
+                open = true;
+          
+            }else{
+                console.log("else")
+                $(this).removeClass("active");
+                console.log(open)
+                $(".backdrop").css("display", "none");
+                $(".main-nav").css("transform", "translateX(-100%)");
+                open = false;
+            }
+    })
+  
+  
+
     //******** load iFrame YouTube player API and construct the video player ************
 
     // 1. Create a script tag with src= to youtube api to load the api script

@@ -14,19 +14,20 @@ $breakpoint-tablet: 40rem;
 
 html{
     height: 100%;
+
   
 
     body{
         font-family: 'Roboto', sans-serif;
         margin: 0;
         padding: 0;
-        padding-top: var(--header-height);
+      
         box-sizing: border-box;
     
         @supports (display: grid) {
   
             display:grid;
-            grid-template-rows: var(--header-height) auto fit-content(8rem);
+            grid-template-rows: 3.5rem auto fit-content(8rem);
             grid-template-areas: "header"
                          "main"
                          "footer";
@@ -35,9 +36,9 @@ html{
         }
        
         header{
-            z-index: 100;
+            z-index: 105;
             height:var( --header-height);
-            padding: 1% 1%;
+            padding: 0.5% 1%;
           
             position: fixed;
             top: 0;
@@ -53,7 +54,7 @@ html{
 
             .left_header{
                 width: 16%;
-                padding: 1rem;
+                padding: 0.5rem 1rem;
                 display: flex;
                 justify-content: start;
                 align-items: center;
@@ -61,10 +62,12 @@ html{
              
         
                 .toggle-button {
-                    width: 1.2rem;
-                    height: 1rem;
+                   
+                    width: 20px;
+                    height: 16px;
                     padding: 0;
                     border: none;
+                   
                     background-color: transparent;
                
                   
@@ -79,28 +82,28 @@ html{
                         height: 2px;
                         background-color: black;
                         transform-origin: left;
-                        transition: all 2s ease;
+                        transition: all 1s ease;
                     }
 
-                    // &.active {
+                    &.active {
                     
-                    //         span{
-                    //             &:first-child {
+                            span{
+                                &:first-child {
                                   
-                    //                 transform: rotate(45deg);
+                                    transform: rotate(45deg);
                                    
-                    //             }
+                                }
                 
-                    //             &:nth-child(2) {
-                    //                 opacity: 0;
+                                &:nth-child(2) {
+                                    opacity: 0;
                                     
-                    //             }
-                    //             &:last-child {
+                                }
+                                &:last-child {
                                   
-                    //                 transform: rotate(-45deg);
-                    //             }
-                    //         }
-                    // }
+                                    transform: rotate(-45deg);
+                                }
+                            }
+                    }
                 }
                            
     
@@ -108,8 +111,8 @@ html{
                     text-decoration: none;
                     color: black;
                     font-weight: bold;
-                    font-size: 1.5rem;
-                    margin-left: 1.5rem;
+                    font-size: 1.7rem;
+                    margin-left: 2rem;
                 }
            
             }
@@ -212,43 +215,56 @@ html{
             }
         }
 
-            .menu-section{
-                border-bottom: 1px solid rgb(167, 164, 164);
-                width: 100%;
-                height: 3rem;
+        .backdrop {
+            position: fixed;
+            top:0;
+            left:0;
+            right:0;
+            display: none;
+            background-color: black;
+            opacity: 0.4;
+            width: 100vw;
+            height: 100vh;
+            z-index: 102;
+        }
 
-                position: fixed;
-                top: 0;
-                left: 0;
-                right: 0;
-                z-index: 100;
-                display: -webkit-box;
-                display: -ms-flexbox;
-                display: -webkit-flex;
-                display: flex;
-                align-items: center;
-                justify-content: end;
-                
-               
+        .main-nav {
+            transform:translateX(-100%);
+            background-color: white;
+            position: fixed;
+            top:0;
+            left:0;
+            width: 30%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 103;
 
                 ul {
-                    display: none;
+                    margin: 0;
+                    padding: 0;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    align-self:center;
 
                     li{
-                        padding: 0;       
+                        padding: 1rem 0;       
                         display: flex;
                         justify-content: center;
                         align-items: center;
                         
                         a{
                             text-decoration: none;
-                            font-weight: bold;
-                            font-size: 0.8rem;
+                           
+                            font-size: 2rem;
                             color: black;
-                            padding: 1rem;
+                          
                         
                             &:hover{
-                                background-color: rgb(204, 204, 206);
+                               font-weight: bold;
                             }
                         }
                     }
@@ -264,26 +280,13 @@ html{
                     }
                 }
             }
-        
-        .backdrop {
-            position: fixed;
-            left:0;
-            top:0;
-            width: 30%;
-            height: 100vh;
 
-            background-color: white;
-        }
-        .main-nav{
-            display: none;
-        }
+  
 
         main{
             background-color: rgb(246, 246, 246);
             grid-area: main;
             padding: 0 3%;
-            margin-top: 1rem;
-     
             display: flex;
             justify-content: center;
     
@@ -297,6 +300,7 @@ html{
             }
 
             .feedback {
+                margin-top: 1rem;
                 width: 80vw;
                 display: flex;
                 flex-direction:column;

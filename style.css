@@ -10,22 +10,21 @@ html body {
   font-family: "Roboto", sans-serif;
   margin: 0;
   padding: 0;
-  padding-top: var(--header-height);
   box-sizing: border-box;
 }
 @supports (display: grid) {
   html body {
     display: grid;
-    grid-template-rows: var(--header-height) auto fit-content(8rem);
+    grid-template-rows: 3.5rem auto fit-content(8rem);
     grid-template-areas: "header" "main" "footer";
     padding-top: 0;
     height: 100%;
   }
 }
 html body header {
-  z-index: 100;
+  z-index: 105;
   height: var(--header-height);
-  padding: 1% 1%;
+  padding: 0.5% 1%;
   position: fixed;
   top: 0;
   left: 0;
@@ -37,14 +36,14 @@ html body header {
 }
 html body header .left_header {
   width: 16%;
-  padding: 1rem;
+  padding: 0.5rem 1rem;
   display: flex;
   justify-content: start;
   align-items: center;
 }
 html body header .left_header .toggle-button {
-  width: 1.2rem;
-  height: 1rem;
+  width: 20px;
+  height: 16px;
   padding: 0;
   border: none;
   background-color: transparent;
@@ -59,14 +58,23 @@ html body header .left_header .toggle-button span {
   height: 2px;
   background-color: black;
   transform-origin: left;
-  transition: all 2s ease;
+  transition: all 1s ease;
+}
+html body header .left_header .toggle-button.active span:first-child {
+  transform: rotate(45deg);
+}
+html body header .left_header .toggle-button.active span:nth-child(2) {
+  opacity: 0;
+}
+html body header .left_header .toggle-button.active span:last-child {
+  transform: rotate(-45deg);
 }
 html body header .left_header .main-header__brand {
   text-decoration: none;
   color: black;
   font-weight: bold;
-  font-size: 1.5rem;
-  margin-left: 1.5rem;
+  font-size: 1.7rem;
+  margin-left: 2rem;
 }
 html body header .center_header {
   width: 50%;
@@ -138,43 +146,56 @@ html body header .right_header .login {
   justify-content: center;
   align-items: center;
 }
-html body .menu-section {
-  border-bottom: 1px solid #a7a4a4;
-  width: 100%;
-  height: 3rem;
+html body .backdrop {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  align-items: center;
-  justify-content: end;
-}
-html body .menu-section ul {
   display: none;
+  background-color: black;
+  opacity: 0.4;
+  width: 100vw;
+  height: 100vh;
+  z-index: 102;
 }
-html body .menu-section ul li {
+html body .main-nav {
+  transform: translateX(-100%);
+  background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 103;
+}
+html body .main-nav ul {
+  margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+}
+html body .main-nav ul li {
+  padding: 1rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-html body .menu-section ul li a {
+html body .main-nav ul li a {
   text-decoration: none;
-  font-weight: bold;
-  font-size: 0.8rem;
+  font-size: 2rem;
   color: black;
-  padding: 1rem;
 }
-html body .menu-section ul li a:hover {
-  background-color: #ccccce;
+html body .main-nav ul li a:hover {
+  font-weight: bold;
 }
 @media (min-width: 55rem) {
-  html body .menu-section ul {
+  html body .main-nav ul {
     padding: 0;
     margin: 0;
     list-style: none;
@@ -183,22 +204,10 @@ html body .menu-section ul li a:hover {
     margin-right: 1rem;
   }
 }
-html body .backdrop {
-  position: fixed;
-  left: 0;
-  top: 0;
-  width: 30%;
-  height: 100vh;
-  background-color: white;
-}
-html body .main-nav {
-  display: none;
-}
 html body main {
   background-color: #f6f6f6;
   grid-area: main;
   padding: 0 3%;
-  margin-top: 1rem;
   display: flex;
   justify-content: center;
 }
@@ -210,6 +219,7 @@ html body main .aboutus p {
   text-align: justify;
 }
 html body main .feedback {
+  margin-top: 1rem;
   width: 80vw;
   display: flex;
   flex-direction: column;
