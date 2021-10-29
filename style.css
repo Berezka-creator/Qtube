@@ -24,13 +24,12 @@ html body {
 html body header {
   z-index: 105;
   height: var(--header-height);
-  padding: 0 3%;
+  padding: 1% 3%;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   background: white;
 }
@@ -74,6 +73,7 @@ html body header .left_header .main-header__brand {
   margin-left: 2rem;
 }
 html body header .center_header {
+  margin-left: 20%;
   width: 50%;
   height: 90%;
   display: flex;
@@ -86,16 +86,9 @@ html body header .center_header form {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-html body header .center_header form .form-group {
-  width: 100%;
-  height: 100%;
   position: relative;
-  display: flex;
-  justify-content: left;
-  align-items: center;
 }
-html body header .center_header form .form-group input {
+html body header .center_header form input {
   border: 1px solid #949393;
   padding: 0 1%;
   border-radius: 0.2rem;
@@ -103,11 +96,11 @@ html body header .center_header form .form-group input {
   height: 100%;
 }
 @media (max-width: 40rem) {
-  html body header .center_header form .form-group input {
+  html body header .center_header form input {
     display: none;
   }
 }
-html body header .center_header form .form-group .search-btn {
+html body header .center_header form .search-btn {
   padding: 0;
   margin: 0;
   border: none;
@@ -117,11 +110,11 @@ html body header .center_header form .form-group .search-btn {
   background-color: transparent;
   cursor: pointer;
 }
-html body header .center_header form .form-group .search-btn i {
+html body header .center_header form .search-btn i {
   padding: 0.5rem;
   color: #818080;
 }
-html body header .center_header form .form-group .search-btn i:hover {
+html body header .center_header form .search-btn i:hover {
   color: #383838;
 }
 html body header .center_header .mic {
