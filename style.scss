@@ -14,6 +14,9 @@ $breakpoint-tablet: 40rem;
 
 html{
     height: 100%;
+    *{
+        border: 1px solid black;
+    }
 
   
 
@@ -38,7 +41,7 @@ html{
         header{
             z-index: 105;
             height:var( --header-height);
-            padding: 0.5% 1%;
+            padding: 0 3%;
           
             position: fixed;
             top: 0;
@@ -53,23 +56,21 @@ html{
            
 
             .left_header{
-                width: 16%;
-                padding: 0.5rem 1rem;
+                // width: 16%;
+                // padding: 0.5rem 1rem;
                 display: flex;
-                justify-content: start;
+                // justify-content: start;
                 align-items: center;
 
              
         
                 .toggle-button {
-                   
-                    width: 20px;
-                    height: 16px;
+                    width: 30px;
+                    height: 27px;
                     padding: 0;
                     border: none;
                    
                     background-color: transparent;
-               
                   
                     cursor: pointer;
                     display: flex;
@@ -79,7 +80,7 @@ html{
 
                     span {
                         width: 100%;
-                        height: 2px;
+                        height: 3px;
                         background-color: black;
                         transform-origin: left;
                         transition: all 1s ease;
@@ -191,7 +192,7 @@ html{
             }
 
             .right_header {
-                width: 16%;
+                // width: 16%;
                 padding-right:2.4rem;
               
                 display: flex;
@@ -229,7 +230,7 @@ html{
         }
 
         .main-nav {
-            transform:translateX(-100%);
+            transform:translateX(-120%);
             background-color: white;
             position: fixed;
             top:0;
@@ -240,6 +241,11 @@ html{
             justify-content: center;
             align-items: center;
             z-index: 103;
+
+            @include mobile {
+                width: 60%;
+
+            }
 
                 ul {
                     margin: 0;
@@ -286,7 +292,7 @@ html{
         main{
             background-color: rgb(246, 246, 246);
             grid-area: main;
-            padding: 0 3%;
+            padding: 2% 3%;
             display: flex;
             justify-content: center;
     

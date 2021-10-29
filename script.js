@@ -23,7 +23,7 @@
                 $(this).removeClass("active");
                 console.log(open)
                 $(".backdrop").css("display", "none");
-                $(".main-nav").css("transform", "translateX(-100%)");
+                $(".main-nav").css("transform", "translateX(-120%)");
                 open = false;
             }
     })
