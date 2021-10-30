@@ -23,19 +23,29 @@ html body {
 }
 html body header {
   z-index: 105;
-  height: var(--header-height);
   padding: 1% 3%;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   display: flex;
-  align-items: center;
   background: white;
+}
+@media (max-width: 40rem) {
+  html body header {
+    flex-direction: column;
+  }
 }
 html body header .left_header {
   display: flex;
   align-items: center;
+}
+@media (max-width: 40rem) {
+  html body header .left_header {
+    width: 100%;
+    justify-content: space-between;
+    padding: 1% 1%;
+  }
 }
 html body header .left_header .toggle-button {
   width: 30px;
@@ -75,10 +85,16 @@ html body header .left_header .main-header__brand {
 html body header .center_header {
   margin-left: 20%;
   width: 50%;
-  height: 90%;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media (max-width: 40rem) {
+  html body header .center_header {
+    margin: 2% 0;
+    width: 100%;
+    height: 2rem;
+  }
 }
 html body header .center_header form {
   height: 100%;
@@ -94,11 +110,6 @@ html body header .center_header form input {
   border-radius: 0.2rem;
   width: 100%;
   height: 100%;
-}
-@media (max-width: 40rem) {
-  html body header .center_header form input {
-    display: none;
-  }
 }
 html body header .center_header form .search-btn {
   padding: 0;
@@ -210,12 +221,23 @@ html body main {
   display: flex;
   justify-content: center;
 }
+@media (max-width: 40rem) {
+  html body main {
+    padding-top: 15%;
+  }
+}
 html body main .aboutus {
   text-align: center;
   width: 60vw;
 }
+@media (max-width: 40rem) {
+  html body main .aboutus {
+    width: 80vw;
+  }
+}
 html body main .aboutus p {
   text-align: justify;
+  font-size: 1.2rem;
 }
 html body main .feedback {
   margin-top: 1rem;
