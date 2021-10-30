@@ -121,10 +121,9 @@ html{
            
             }
 
-        
             .center_header {
-                margin-left: 20%;
-                width: 50%;
+                margin-left: 10%;
+                width: 60%;
                 // height: 90%;
                 display:flex;
                 justify-content: center;
@@ -287,17 +286,21 @@ html{
             }
 
         main{
+
             background-color: rgb(246, 246, 246);
             grid-area: main;
-            padding: 2% 3%;
+            padding: 1% 3%;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            // justify-content: center;
             height: 100vh;
-
+           
+            
             @include mobile {
-                padding-top: 15%;
+                 padding-top: 15%;
+             
             }
-    
 
             .aboutus{
                 text-align: center;
@@ -347,6 +350,8 @@ html{
             }
           
             .video {  
+                background-color: red;
+                
                 width: 100%;
                 padding: 0;
                 // height: 100vh;
@@ -357,8 +362,13 @@ html{
                 align-items: center;  
 
                 iframe{
-                    width: 90%;
-                    height: 450px;
+                    width: 80%;
+                    height: 350px;
+
+                    @include mobile {
+                        height: 250px;
+                        width: 100%;
+                    }
                 }
             }    
 
