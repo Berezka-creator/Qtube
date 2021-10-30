@@ -66,9 +66,6 @@
     }
 
 
-
-
-
     //********** define function to load the videos on the page given a youtube api URL (search or playlists) and options
     function loadVids(URL, options){
 
@@ -77,6 +74,8 @@
 
         // Also make sure to hide and pause the video if it was already playing
         $("#video").hide();
+       
+        
         try {// if player is not constructed yet skip this
 
             if (player.getPlayerState()==1){
@@ -85,11 +84,13 @@
 
         } catch (e){(console.log("player did not load yet"));}
 
-        // move the search bar to the top
-        $('#search-section').removeClass('search-center')
 
         // Empty previous videos if needed
-        $("#videos").empty()
+        $("#videos").empty();
+        console.log("here I want to empty about us")
+        $(".aboutus").hide();
+        
+
 
         $.getJSON(URL, options, function(data){
              console.log("youtube data api success.");
@@ -110,6 +111,7 @@
                  }
 
                  //console.log(data)
+               
 
                 $('#videos').append(`
                     <article class="item" data-key="${vid}">
@@ -151,6 +153,7 @@
     // since we will not call loadvids() we need to hide quiz and player
     $("#quiz-body").hide();
     $("#video").hide();
+    $("#aboutus").hide();
     // add to history
      saveState();
 
@@ -425,6 +428,7 @@
         e.preventDefault();
         // get the href value (file name)
         let href = $(this).attr('href');
+        $(".aboutus").hide();
 
         // load the html file
         $.get(href,function(data){

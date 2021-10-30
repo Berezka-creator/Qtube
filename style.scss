@@ -292,6 +292,7 @@ html{
             padding: 2% 3%;
             display: flex;
             justify-content: center;
+            height: 100vh;
 
             @include mobile {
                 padding-top: 15%;
