@@ -87,10 +87,6 @@
 
         // Empty previous videos if needed
         $("#videos").empty();
-        console.log("here I want to empty about us")
-        $(".aboutus").hide();
-        
-
 
         $.getJSON(URL, options, function(data){
              console.log("youtube data api success.");
@@ -147,15 +143,7 @@
          playlistId: playlistId,
 
     }
-    // Will start the website with just a search for now
-    // loadVids(URL, options);
 
-    // since we will not call loadvids() we need to hide quiz and player
-    $("#quiz-body").hide();
-    $("#video").hide();
-    $("#aboutus").hide();
-    // add to history
-     saveState();
 
     //******* SEARCH VIDEOS, event handlet for form submission
     $("#form").submit(function(event){
@@ -424,11 +412,11 @@
     });
 
     // ************* Link to other pages function **********
+    
     $("a").on('click',function(e){
         e.preventDefault();
         // get the href value (file name)
         let href = $(this).attr('href');
-        $(".aboutus").hide();
 
         // load the html file
         $.get(href,function(data){
@@ -446,15 +434,23 @@
             } catch (e){(console.log("player did not load yet"));}
             // Empty previous videos if needed
             $("#videos").empty()
-            // move the search bar to the top
-            $('#search-section').removeClass('search-center')
+
             // write the content to the page
             $("#videos").html(data);
 
             // save to browser history
             saveState();
         });
+
+     $(".main-nav").css("transform", "translateX(-120%)");
+     $(".backdrop").css("display", "none");
+     $(".toggle-button").removeClass("active");
+
+    
     });
+
+    // start the page with about us
+    $('a[href="aboutus.html"]').click();
 
 
     // ************** feedback form ****************
